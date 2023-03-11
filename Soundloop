@@ -1,3 +1,9 @@
+"""
+die .wav files sind zu groß d.h. sie werden per mail an Nathi gesendet
+"""
+
+
+
 import threading
 import winsound
 
