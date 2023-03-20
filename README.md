@@ -33,7 +33,7 @@ Password Confirmation in th Register-Window is also included.
 * Gui + Graphics für Hauptscreen
 
 ### Game Logic Server
-*Spielfeld Management
+* Spielfeld Management
 * Spielablauf
 * Networking
 * Multiprocessing/threading
