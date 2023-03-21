@@ -1,10 +1,11 @@
 import sys, os
+import User_Login
 from PyQt6.QtWidgets import *
 from PyQt6.QtCore import *
 from PyQt6.QtGui import *
 from PyQt6 import *
 
-
+path = "player_data.txt"
 
 class StartingPage(QMainWindow):
     def __init__(self): #the __init__ method of the super() class must always be called
@@ -127,6 +128,10 @@ class LoginWindow(QMainWindow):
                     self.correct = False
 
             if(self.correct == True): #if every input is correct
+                if(User_Login.user_login(path, self.input_field_list[0], self.input_field_list[1]) == 0):
+                    print("player not found")
+                else:
+                    print(User_Login.user_login(path, self.input_field_list[0], self.input_field_list[1]))
                 print("True")
             
 
@@ -213,6 +218,7 @@ class RegisterWindow(QMainWindow):
 
             if(self.correct == True): #if every input is correct
                 print("True")
+                User_Login.create_user(path, self.input_field_list[0], self.input_field_list[-1])
 
 
 
