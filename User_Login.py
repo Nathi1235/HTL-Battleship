@@ -1,7 +1,7 @@
 '''
 User Login/Save/Create Functions for GameLogicServer and GameLogicClient
 Philipp Frenzel
-10.03.2023
+23.03.2023
 '''
 
 def create_user(pathtofile, name, password):

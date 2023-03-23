@@ -4,6 +4,7 @@ from PyQt6.QtWidgets import *
 from PyQt6.QtCore import *
 from PyQt6.QtGui import *
 from PyQt6 import *
+import hashlib
 
 path = "player_data.txt"
 
@@ -128,10 +129,10 @@ class LoginWindow(QMainWindow):
                     self.correct = False
 
             if(self.correct == True): #if every input is correct
-                if(User_Login.user_login(path, self.input_field_list[0].text(), self.input_field_list[1].text()) == 0):
+                if(User_Login.user_login(path, self.input_field_list[0].text(), hashlib.sha256(self.input_field_list[1].text().encode()).hexdigest()) == 0):
                     print("player not found")
                 else:
-                    print(User_Login.user_login(path, self.input_field_list[0].text(), self.input_field_list[1].text()))
+                    print(User_Login.user_login(path, self.input_field_list[0].text(), hashlib.sha256(self.input_field_list[1].text().encode()).hexdigest()))
                 print("True")
             
 
@@ -217,7 +218,7 @@ class RegisterWindow(QMainWindow):
                 self.correct = False
 
             if(self.correct == True): #if every input is correct
-                check = User_Login.create_user(path, self.input_field_list[0].text(), self.input_field_list[-1].text())
+                check = User_Login.create_user(path, self.input_field_list[0].text(), hashlib.sha256(self.input_field_list[-1].text().encode()).hexdigest())
                 if check == 0:
                     print("Error")
                 elif check == 2:
