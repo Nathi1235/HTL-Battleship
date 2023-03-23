@@ -13,17 +13,17 @@ def create_user(pathtofile, name, password):
     savefile.close()
     for i in range(0,len(data)):                            #removing \n from lines
             data[i] = data[i].strip('\n')
-    if user(0) in data:                                     #if username already exists -> return 0
-        return(0)
-    elif user(0) not in data:                               #if not creates user
+    if user[0] in data:                                     #if username already exists -> return 0
+        return 2 
+    elif user[0] not in data:                               #if not creates user
         try:
             savefile = open(pathtofile, 'a')
             for i in user:
                 savefile.writelines("{}\n".format(i))
             savefile.close()
-            return(1)                                       #returns 1 after succssesful creation
+            return 1                                        #returns 1 after succssesful creation
         except:
-            return(0)                                       #returns 0 if failed
+            return 0                                        #returns 0 if failed
 
 def user_login(pathtofile, name, password):
     try:
@@ -32,7 +32,6 @@ def user_login(pathtofile, name, password):
         savefile.close()
         for i in range(0,len(data)):
             data[i] = data[i].strip('\n')
-        
         index = data.index(name)
         if data[index] == name and data[index+1] == password:                   #if username and password are right, the values 
             values = [name, data[index+2], data[index+3]]                       #name, wins, loses are returned

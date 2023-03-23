@@ -128,10 +128,10 @@ class LoginWindow(QMainWindow):
                     self.correct = False
 
             if(self.correct == True): #if every input is correct
-                if(User_Login.user_login(path, self.input_field_list[0], self.input_field_list[1]) == 0):
+                if(User_Login.user_login(path, self.input_field_list[0].text(), self.input_field_list[1].text()) == 0):
                     print("player not found")
                 else:
-                    print(User_Login.user_login(path, self.input_field_list[0], self.input_field_list[1]))
+                    print(User_Login.user_login(path, self.input_field_list[0].text(), self.input_field_list[1].text()))
                 print("True")
             
 
@@ -217,8 +217,15 @@ class RegisterWindow(QMainWindow):
                 self.correct = False
 
             if(self.correct == True): #if every input is correct
-                print("True")
-                User_Login.create_user(path, self.input_field_list[0], self.input_field_list[-1])
+                check = User_Login.create_user(path, self.input_field_list[0].text(), self.input_field_list[-1].text())
+                if check == 0:
+                    print("Error")
+                elif check == 2:
+                    print("User already exists")
+                else:
+                    print("All worked")
+                    #TODO proceed to matchmaking/player selection window
+                    
 
 
 
