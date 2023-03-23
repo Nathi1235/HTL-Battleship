@@ -8,6 +8,7 @@ import hashlib
 
 path = "player_data.txt"
 
+
 class StartingPage(QMainWindow):
     def __init__(self): #the __init__ method of the super() class must always be called
         super().__init__()
@@ -133,7 +134,7 @@ class LoginWindow(QMainWindow):
                     print("player not found")
                 else:
                     print(User_Login.user_login(path, self.input_field_list[0].text(), hashlib.sha256(self.input_field_list[1].text().encode()).hexdigest()))
-                print("True")
+
             
 
 

@@ -9,13 +9,12 @@ import winsound
 
 def soundtrack():
     while True:
-        filename = 'bum.wav'
+        filename = 'Bmark3.wav'
         winsound.PlaySound(filename, winsound.SND_FILENAME)
-        filedings = 'Splash.wav'
+        filedings = 'Ctruce3.wav'
         winsound.PlaySound(filedings, winsound.SND_FILENAME)
         
         
-soundtrack_thread = threading.Thread(target=soundtrack)
-
-
-soundtrack_thread.start()
+def start_soundtrack():
+    soundtrack_thread = threading.Thread(target=soundtrack)
+    soundtrack_thread.start()
