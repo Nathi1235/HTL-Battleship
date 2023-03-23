@@ -13,7 +13,7 @@ Players = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 
 
 class player:
-    def __init__(self, username = "----",wins = 0,games = 0):
+    def __init__(self, username = "--------",wins = 0,games = 0):
         self.username = username
         self.wins = wins
         self.games = games
@@ -29,28 +29,35 @@ class Playerpage(QMainWindow):
 
         Headers.append(QLabel("Player"))
         Headers.append(QLabel("Games won"))
-        Headers.append(QLabel("Games playes"))
+        Headers.append(QLabel("Games played"))
         Headers.append(QLabel("Win %"))
         x = 0
         for i in Headers:
             i.setFont(QFont("Arial",20))
             layout.addWidget(i,0,x)
+            i.setAlignment(Qt.AlignmentFlag.AlignCenter)
             x += 1 
 
+        get_players()
 
         j = 0
         for i in Players:
-            print("username",i.username)
-            layout.addWidget(QLabel(i.username), j+1, 0)
-            print("wins",i.wins)
-            layout.addWidget(QLabel(i.wins), j+1, 1)
-            print("games",i.games)
-            layout.addWidget(QLabel(i.games), j+1, 2)
-            layout.addWidget(QLabel(round(i.wins/i.games,1)*10), j+1, 3)
+            Playerdata = []
+            Playerdata.append(QLabel(i.username))
+            Playerdata.append(QLabel(f"{i.wins}"))
+            Playerdata.append(QLabel(f"{i.games}"))
+            Playerdata.append(QLabel(calc_winrate(i)))
+            for x in Playerdata:
+                x.setFont(QFont("Arial",15))
+                x.setAlignment(Qt.AlignmentFlag.AlignCenter)
+            layout.addWidget(Playerdata[0],j+1,0)
+            layout.addWidget(Playerdata[1],j+1,1)
+            layout.addWidget(Playerdata[2],j+1,2)
+            layout.addWidget(Playerdata[3],j+1,3)
             layout.addWidget(Challengebutton(i.username),j+1,4)
             j += 1
-        
-        
+               
+
         widget = QWidget()
         widget.setLayout(layout)
         self.setCentralWidget(widget)
@@ -73,26 +80,32 @@ class Challengebutton(QWidget):
         super().__init__()
         self.playername = playername
         self.button = QPushButton(text=f"Challenge {playername}",parent=self)
-        self.button.setFixedSize(200, 47)
+        self.button.setFixedSize(300, 47)
+        self.button.setFont(QFont("Arial",15))
         self.button.clicked.connect(self.button_clicked)
         Buttons.append(self.button)
 
     def button_clicked(self):
-        self.button.setText(f"Waiting for response from {self.playername}")
+        self.button.setText(f"Waiting for {self.playername}")
         for i in Buttons:
             i.setEnabled(False)
 
 def get_players():
     j = 0 
     for i in Players:
-        data = user_leaderboard_wins
-        while (j < (len(data)/3)):
-            Players[j] = player(data[0%3 + 3*j],data[1%3 + 3*j],data[2%3 + 3*j])
+        #data = user_leaderboard_wins()
+        #while (j < (len(data)/3)):
+            #Players[j] = player(data[0%3 + 3*j],data[1%3 + 3*j],data[2%3 + 3*j])
+        Players[j] = player()
+        j += 1
 
+def calc_winrate(player):
+    try:
+        return f"{round(player.wins/player.games,1)*10}%"
+    except ZeroDivisionError:
+        return "--------"
 
-        
-
-    
+  
 app = QApplication(sys.argv)
 
 window = Playerpage()
