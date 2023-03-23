@@ -37,6 +37,7 @@ class Playerpage(QMainWindow):
             layout.addWidget(i,0,x)
             i.setAlignment(Qt.AlignmentFlag.AlignCenter)
             x += 1 
+        layout.addWidget(Back_to_start_button(),0,4)
 
         get_players()
 
@@ -87,6 +88,20 @@ class Challengebutton(QWidget):
 
     def button_clicked(self):
         self.button.setText(f"Waiting for {self.playername}")
+        for i in Buttons:
+            i.setEnabled(False)
+
+class Back_to_start_button(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.button = QPushButton(text="Back to Startpage",parent = self)
+        self.button.setStyleSheet("background-color: red")
+        self.button.setFixedSize(300, 47)
+        self.button.setFont(QFont("Arial",15))
+        self.button.clicked.connect(self.button_clicked)
+
+    def button_clicked(self):
+        self.button.setText("Loading...")
         for i in Buttons:
             i.setEnabled(False)
 
