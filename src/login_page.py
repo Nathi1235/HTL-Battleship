@@ -1,9 +1,12 @@
 import sys, os
+import User_Login
 from PyQt6.QtWidgets import *
 from PyQt6.QtCore import *
 from PyQt6.QtGui import *
 from PyQt6 import *
+import hashlib
 
+path = "player_data.txt"
 
 
 class StartingPage(QMainWindow):
@@ -127,7 +130,11 @@ class LoginWindow(QMainWindow):
                     self.correct = False
 
             if(self.correct == True): #if every input is correct
-                print("True")
+                if(User_Login.user_login(path, self.input_field_list[0].text(), hashlib.sha256(self.input_field_list[1].text().encode()).hexdigest()) == 0):
+                    print("player not found")
+                else:
+                    print(User_Login.user_login(path, self.input_field_list[0].text(), hashlib.sha256(self.input_field_list[1].text().encode()).hexdigest()))
+
             
 
 
@@ -212,7 +219,15 @@ class RegisterWindow(QMainWindow):
                 self.correct = False
 
             if(self.correct == True): #if every input is correct
-                print("True")
+                check = User_Login.create_user(path, self.input_field_list[0].text(), hashlib.sha256(self.input_field_list[-1].text().encode()).hexdigest())
+                if check == 0:
+                    print("Error")
+                elif check == 2:
+                    print("User already exists")
+                else:
+                    print("All worked")
+                    #TODO proceed to matchmaking/player selection window
+                    
 
 
 
