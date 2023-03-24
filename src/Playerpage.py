@@ -61,20 +61,8 @@ class Playerpage(QMainWindow):
         widget = QWidget()
         widget.setLayout(layout)
         self.setCentralWidget(widget)
-
-''' 
-class Color(QWidget):
-
-    def __init__(self, color):
-        super(Color, self).__init__()
-        self.setAutoFillBackground(True)
-
-        palette = self.palette()
-        palette.setColor(QPalette.ColorRole.Window, QColor(color))
-        self.setPalette(palette)
-'''        
+    
         
-
 class Challengebutton(QWidget):
     def __init__(self,playername): 
         super().__init__()
@@ -86,9 +74,27 @@ class Challengebutton(QWidget):
         Buttons.append(self.button)
 
     def button_clicked(self):
-        self.button.setText(f"Waiting for {self.playername}")
         for i in Buttons:
             i.setEnabled(False)
+            i.setStyleSheet("background-color: rgba(100, 100, 100, 50);color: red;")
+            i.setText(f"Currently challenging {self.playername}")
+        self.button.setText(f"Waiting for {self.playername}")
+        self.button.setStyleSheet("background-color: rgba(255, 255, 255, 100);color: red;")
+        self.timer = QTimer()
+        self.timer.timeout.connect(lambda: self.reset_buttons())
+        self.timer.start(10000)
+
+    def reset_buttons(self):
+        j = 0
+        for i in Buttons:
+            i.setEnabled(True)
+            i.setStyleSheet("color: black")
+            i.setText(f"Challenge {Players[j].username}")
+            j += 1
+        self.timer.stop()
+
+
+
 
 class Back_to_start_button(QWidget):
     def __init__(self):
@@ -120,11 +126,22 @@ def calc_winrate(player):
     except ZeroDivisionError:
         return "--------"
 
+
 stylesheet = """
     Playerpage {
-        border-image: url("Resources/images/BackgroundLogin-transformed.png"); 
+        border-image: url("Resources/images/highrecbackground.png"); 
         background-repeat: no-repeat; 
         background-position: center;
+    }
+    QLabel {
+        border: 3px solid black;
+        color: white;
+        background-color: rgba(0, 0, 0, 50);
+    }
+    QPushButton {
+    background-color: rgba(255, 255, 255, 100);
+    color: black;
+    border: 3px solid black;
     }
 """
 
