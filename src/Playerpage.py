@@ -11,7 +11,6 @@ Buttons = []
 Headers = []
 Players = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 
-
 class player:
     def __init__(self, username = "--------",wins = 0,games = 0):
         self.username = username
@@ -63,7 +62,7 @@ class Playerpage(QMainWindow):
         widget.setLayout(layout)
         self.setCentralWidget(widget)
 
-'''
+''' 
 class Color(QWidget):
 
     def __init__(self, color):
@@ -104,6 +103,7 @@ class Back_to_start_button(QWidget):
         self.button.setText("Loading...")
         for i in Buttons:
             i.setEnabled(False)
+        sys.exit()
 
 def get_players():
     j = 0 
@@ -120,10 +120,18 @@ def calc_winrate(player):
     except ZeroDivisionError:
         return "--------"
 
-  
-app = QApplication(sys.argv)
+stylesheet = """
+    Playerpage {
+        border-image: url("Resources/images/BackgroundLogin-transformed.png"); 
+        background-repeat: no-repeat; 
+        background-position: center;
+    }
+"""
 
-window = Playerpage()
-window.showFullScreen()
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    app.setStyleSheet(stylesheet)
+    window = Playerpage()
+    window.showFullScreen()
 
-app.exec()
+    app.exec()
