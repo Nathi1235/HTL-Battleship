@@ -23,7 +23,14 @@ class Playerpage(QMainWindow):
         super(Playerpage, self).__init__()
 
         self.setWindowTitle("Players")
-        layout = QGridLayout()
+        mainlayout = QHBoxLayout()
+        playerlayout = QGridLayout()
+        chatlayout = QVBoxLayout()
+        buttonlayout = QGridLayout()
+        exitbox = QHBoxLayout()
+        mainlayout.addLayout(playerlayout)
+        mainlayout.addLayout(buttonlayout)
+        mainlayout.addLayout(chatlayout)
         self.move(0,0)
 
         Headers.append(QLabel("Player"))
@@ -33,12 +40,15 @@ class Playerpage(QMainWindow):
         x = 0
         for i in Headers:
             i.setFont(QFont("Arial",20))
-            layout.addWidget(i,0,x)
+            playerlayout.addWidget(i,0,x)
             i.setAlignment(Qt.AlignmentFlag.AlignCenter)
+            i.setFixedSize(220,47)
             x += 1 
-        layout.addWidget(Back_to_start_button(),0,4)
 
         get_players()
+        Challengeheader = (QLabel(""))
+        Challengeheader.setFixedSize(300, 47)
+        buttonlayout.addWidget(Challengeheader)
 
         j = 0
         for i in Players:
@@ -50,16 +60,24 @@ class Playerpage(QMainWindow):
             for x in Playerdata:
                 x.setFont(QFont("Arial",15))
                 x.setAlignment(Qt.AlignmentFlag.AlignCenter)
-            layout.addWidget(Playerdata[0],j+1,0)
-            layout.addWidget(Playerdata[1],j+1,1)
-            layout.addWidget(Playerdata[2],j+1,2)
-            layout.addWidget(Playerdata[3],j+1,3)
-            layout.addWidget(Challengebutton(i.username),j+1,4)
+                x.setFixedSize(220,47)
+            playerlayout.addWidget(Playerdata[0],j+1,0)
+            playerlayout.addWidget(Playerdata[1],j+1,1)
+            playerlayout.addWidget(Playerdata[2],j+1,2)
+            playerlayout.addWidget(Playerdata[3],j+1,3)
+            buttonlayout.addWidget(Challengebutton(i.username),j+1,0)
             j += 1
-               
+
+        exitbutton = Back_to_start_button()
+        exitbox.addSpacerItem(QSpacerItem(105,1))
+        exitbox.addWidget(exitbutton)
+        chatlayout.addLayout(exitbox)
+        chatlayout.addWidget(QLabel("Chat1"))
+        
+
 
         widget = QWidget()
-        widget.setLayout(layout)
+        widget.setLayout(mainlayout)
         self.setCentralWidget(widget)
     
         
@@ -101,7 +119,7 @@ class Back_to_start_button(QWidget):
         super().__init__()
         self.button = QPushButton(text="Back to Startpage",parent = self)
         self.button.setStyleSheet("background-color: red")
-        self.button.setFixedSize(300, 47)
+        self.button.setFixedSize(200, 47)
         self.button.setFont(QFont("Arial",15))
         self.button.clicked.connect(self.button_clicked)
 
@@ -150,5 +168,6 @@ if __name__ == "__main__":
     app.setStyleSheet(stylesheet)
     window = Playerpage()
     window.showFullScreen()
+    #window.show()
 
     app.exec()
