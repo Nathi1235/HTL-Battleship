@@ -4,7 +4,7 @@ A Battleship-Game based on Python for School
 ## Current Functionality
 ```
 A GUI to register as a new user or login as an existing user.
-Password Confirmation in th Register-Window is also included.
+A GUI to choose your enemy.
 ```
 
 ## Funktionen
