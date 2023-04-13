@@ -166,7 +166,7 @@ class Challengebutton(QWidget):
 class Back_to_login_button(QWidget):
     def __init__(self):
         super().__init__()
-        self.button = QPushButton(text="Back to loginpage",parent = self)
+        self.button = QPushButton(text="Back to Loginpage",parent = self)
         self.button.setStyleSheet("background-color: red")
         self.button.setFixedSize(650, 100)
         self.button.setFont(QFont("Arial",15))
@@ -290,7 +290,7 @@ def calc_winrate(player):
 
 stylesheet = """
     Playerpage {
-        border-image: url("Resources/images/highrecbackground.png"); 
+        border-image: url("HTL-Battleship/Resources/images/highrecbackground.png"); 
         background-repeat: no-repeat; 
         background-position: center;
     }
@@ -300,9 +300,7 @@ stylesheet = """
         background-color: rgba(0, 0, 0, 50);
     }
     QPushButton {
-    background-color: rgba(255, 255, 255, 100);
-    color: black;
-    border: 3px solid black;
+    a
     }
     QLineEdit {
         border: 3px solid black;
