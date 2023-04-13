@@ -5,6 +5,7 @@ A Battleship-Game based on Python for School
 ```
 A GUI to register as a new user or login as an existing user.
 A GUI to choose your enemy.
+A GUI to place your ships.
 ```
 
 ## Funktionen
