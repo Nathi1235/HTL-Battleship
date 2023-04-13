@@ -99,11 +99,11 @@ class shipplacementpage(QMainWindow):
             placebox.addLayout(buttonbox)
             ship = QLabel(self)
             if (i == 0):
-                shippic = QPixmap("HTL-Battleship/Resources/images/5x1.png")
+                shippic = QPixmap("Resources/images/5x1.png")
             if (i == 1):
-                shippic = QPixmap("HTL-Battleship/Resources/images/4x1.png")
+                shippic = QPixmap("Resources/images/4x1.png")
             if (i == 2):
-                shippic = QPixmap("HTL-Battleship/Resources/images/3x1.png")
+                shippic = QPixmap("Resources/images/3x1.png")
             ship.setPixmap(shippic)
             ship.setAlignment((Qt.AlignmentFlag.AlignCenter | Qt.AlignmentFlag.AlignLeft))
             shippics.append(ship)
@@ -139,9 +139,9 @@ class shipplacementpage(QMainWindow):
             placebox.addLayout(buttonbox)
             ship = QLabel(self)
             if (i == 0):
-                shippic = QPixmap("HTL-Battleship/Resources/images/5x2.png")
+                shippic = QPixmap("Resources/images/5x2.png")
             if (i == 1):
-                shippic = QPixmap("HTL-Battleship/Resources/images/7x3.png")
+                shippic = QPixmap("Resources/images/7x3.png")
             ship.setPixmap(shippic)
             ship.setAlignment((Qt.AlignmentFlag.AlignCenter | Qt.AlignmentFlag.AlignLeft))
             shippics.append(ship)
