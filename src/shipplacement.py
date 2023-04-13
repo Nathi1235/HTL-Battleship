@@ -46,7 +46,7 @@ class shipplacementpage(QMainWindow):
         fieldtitle.setFont(QFont("Arial",30))
         fieldtitle.setAlignment(Qt.AlignmentFlag.AlignCenter)
         fieldbox.addWidget(fieldtitle)
-        fieldsubtitle = QLabel("Enter the coordinates by clicking on the square where you want you ship to be placed!")
+        fieldsubtitle = QLabel("Enter the coordinates by clicking on the square where you want your ship to be placed!")
         fieldsubtitle.setFixedHeight(80)
         fieldsubtitle.setFont(QFont("Arial",15))
         fieldsubtitle.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -85,13 +85,13 @@ class shipplacementpage(QMainWindow):
             entercords.setFixedSize(150,50)
             cordentries.append(entercords)
             entercords.setAlignment(Qt.AlignmentFlag.AlignCenter)
-            entercords.setStyleSheet("border: 1px solid black;")
+            entercords.setStyleSheet("border: 1px solid white;")
             buttonbox.addWidget(entercords)
             buttonbox.addSpacerItem(QSpacerItem(100,7))
             left_to_place = QLabel()
             left_to_place.setFont(QFont("Arial",12))
             left_to_place.setText(f" {shipnumbers[i]} left to place")
-            left_to_place.setStyleSheet("border: 1px solid black;")
+            left_to_place.setStyleSheet("border: 1px solid white;")
             left_to_place.setFixedSize(150,50)
             left_to_place.setAlignment(Qt.AlignmentFlag.AlignCenter)
             buttonbox.addWidget(left_to_place)
@@ -99,11 +99,11 @@ class shipplacementpage(QMainWindow):
             placebox.addLayout(buttonbox)
             ship = QLabel(self)
             if (i == 0):
-                shippic = QPixmap("HTL-Battleship/Resources/images/5x1.png")
+                shippic = QPixmap("Resources/images/5x1.png")
             if (i == 1):
-                shippic = QPixmap("HTL-Battleship/Resources/images/4x1.png")
+                shippic = QPixmap("Resources/images/4x1.png")
             if (i == 2):
-                shippic = QPixmap("HTL-Battleship/Resources/images/3x1.png")
+                shippic = QPixmap("Resources/images/3x1.png")
             ship.setPixmap(shippic)
             ship.setAlignment((Qt.AlignmentFlag.AlignCenter | Qt.AlignmentFlag.AlignLeft))
             shippics.append(ship)
@@ -125,13 +125,13 @@ class shipplacementpage(QMainWindow):
             entercords.setFixedSize(150,50)
             cordentries.append(entercords)
             entercords.setAlignment(Qt.AlignmentFlag.AlignCenter)
-            entercords.setStyleSheet("border: 1px solid black;")
+            entercords.setStyleSheet("border: 1px solid white;")
             buttonbox.addWidget(entercords)
             buttonbox.addSpacerItem(QSpacerItem(100,7))
             left_to_place = QLabel()
             left_to_place.setFont(QFont("Arial",12))
             left_to_place.setText(f"{shipnumbers[i+3]} left to place ")
-            left_to_place.setStyleSheet("border: 1px solid black;")
+            left_to_place.setStyleSheet("border: 1px solid white;")
             left_to_place.setFixedSize(150,50)
             left_to_place.setAlignment(Qt.AlignmentFlag.AlignCenter)
             buttonbox.addWidget(left_to_place)
@@ -139,9 +139,9 @@ class shipplacementpage(QMainWindow):
             placebox.addLayout(buttonbox)
             ship = QLabel(self)
             if (i == 0):
-                shippic = QPixmap("HTL-Battleship/Resources/images/5x2.png")
+                shippic = QPixmap("Resources/images/5x2.png")
             if (i == 1):
-                shippic = QPixmap("HTL-Battleship/Resources/images/7x3.png")
+                shippic = QPixmap("Resources/images/1x2.png")
             ship.setPixmap(shippic)
             ship.setAlignment((Qt.AlignmentFlag.AlignCenter | Qt.AlignmentFlag.AlignLeft))
             shippics.append(ship)
@@ -179,6 +179,7 @@ class placebutton(QWidget):
         self.button.clicked.connect(self.button_clicked)
 
     def button_clicked(self):
+        startcords = 0
         j = 0
         for i in placebuttons:
             if (i == self.button):
@@ -197,69 +198,69 @@ class placebutton(QWidget):
                     startcords = [x,y]                
                     break
             j+=1
-        checkfree = True
-        if (j == 0):
-            pass
-        elif (j == 1): 
-            pass
-        elif (j == 2):
-            ship = threexone(startcords)
-                
-        elif (j == 3):
-            pass
-        elif (j == 4):
-            pass
-        k = 0
-        for i in ship.x:
-            if (i < 1 or i > 15):
-                ship.x[k] = '#'
-            k+=1        
-        k = 0
-        for i in ship.y:
-            if (i < 1 or i > 15):
-                ship.y[k] = '#'
-            k+=1
-        k = 0
-        for x in ship.x:
-            if (x != '#'):
-                ship.x[k] = headers[x-1]
-            k += 1
-        k = 0
-        for y in ship.y:
-            if (y != '#'):
-                ship.y[k] = str(y)
-            k+=1
-        for i in range(len(ship.x)):
-            cord = ship.x[i]+ship.y[i]
-            for m in cord:
-                if (m == '#'):
-                    msg = QMessageBox(self)
-                    msg.setWindowTitle("Invalid Input")
-                    msg.setText("Out of playing area!")
-                    msg.exec()
-                    checkfree = False
-                    break
-            for n in range(len(x_taken_by_ships)):
-                if (cord == (y_taken_by_ships[n]+str(x_taken_by_ships[n]))):
-                    msg = QMessageBox(self)
-                    msg.setWindowTitle("Invalid Input")
-                    msg.setText("There is already a ship there!")
-                    msg.exec()
-                    checkfree = False
-                    break
-            if not checkfree:
-                break
-        if checkfree:        
+        if startcords != 0:
+            checkfree = True
+            if (j == 0):
+                ship = fivex1(startcords)
+            elif (j == 1): 
+                ship = fourx1(startcords)
+            elif (j == 2):
+                ship = threexone(startcords)     
+            elif (j == 3):
+                ship = fivex2(startcords)
+            elif (j == 4):
+                ship = twoxone(startcords)
+            k = 0
+            for i in ship.x:
+                if (i < 1 or i > 15):
+                    ship.x[k] = '#'
+                k+=1        
+            k = 0
+            for i in ship.y:
+                if (i < 1 or i > 15):
+                    ship.y[k] = '#'
+                k+=1
+            k = 0
+            for x in ship.x:
+                if (x != '#'):
+                    ship.x[k] = headers[x-1]
+                k += 1
+            k = 0
+            for y in ship.y:
+                if (y != '#'):
+                    ship.y[k] = str(y)
+                k+=1
             for i in range(len(ship.x)):
                 cord = ship.x[i]+ship.y[i]
-                for chr in fieldbuttons:
-                    if (cord == (chr.y+str(chr.x))):
-                        chr.button.setEnabled(False)
-                        chr.button.setStyleSheet(("background-color: red"))
-                        x_taken_by_ships.append(chr.x)
-                        y_taken_by_ships.append(chr.y)
-                        for i in cordentries:
-                            i.setText("")
+                for m in cord:
+                    if (m == '#'):
+                        msg = QMessageBox(self)
+                        msg.setWindowTitle("Invalid Input")
+                        msg.setText("Out of playing area!")
+                        msg.exec()
+                        checkfree = False
+                        break
+                for n in range(len(x_taken_by_ships)):
+                    if (cord == (y_taken_by_ships[n]+str(x_taken_by_ships[n]))):
+                        msg = QMessageBox(self)
+                        msg.setWindowTitle("Invalid Input")
+                        msg.setText("There is already a ship there!")
+                        msg.exec()
+                        checkfree = False
+                        break
+                if not checkfree:
+                    break
+            if checkfree:        
+                for i in range(len(ship.x)):
+                    cord = ship.x[i]+ship.y[i]
+                    for chr in fieldbuttons:
+                        if (cord == (chr.y+str(chr.x))):
+                            chr.button.setEnabled(False)
+                            chr.button.setStyleSheet(("background-color: gray"))
+                            x_taken_by_ships.append(chr.x)
+                            y_taken_by_ships.append(chr.y)
+                            for i in cordentries:
+                                i.setText("")
 
 class rotatebutton(QWidget):
     def __init__(self,rotation = 0): 
@@ -321,44 +322,93 @@ class threexone():
              self.y = [self.start[1],self.start[1]-1,self.start[1]-2]
 
 class fourx1():
-    def __init__(self,start):
+    def __init__(self,start,x = [],y = []):
+        self.x = x
+        self.y = y
         self.start = start
-        self.rotation = rotatebuttons[1].rotation 
+        self.rotation = rotatebuttons[1].rotation
+        if (self.rotation == 0):
+            self.x = [self.start[0],self.start[0]+1,self.start[0]+2,self.start[0]+3]
+            self.y = [self.start[1],self.start[1],self.start[1],self.start[1]]
+        elif (self.rotation == 90):
+             self.x = [self.start[0],self.start[0],self.start[0],self.start[0]]
+             self.y = [self.start[1],self.start[1]+1,self.start[1]+2,self.start[1]+3]
+        elif (self.rotation == 180):
+             self.x = [self.start[0],self.start[0]-1,self.start[0]-2,self.start[0]-3]
+             self.y = [self.start[1],self.start[1],self.start[1],self.start[1]]
+        elif (self.rotation == 270):
+             self.x = [self.start[0],self.start[0],self.start[0],self.start[0]]
+             self.y = [self.start[1],self.start[1]-1,self.start[1]-2,self.start[1]-3]
 
 class fivex1():
     def __init__(self,start):
         self.start = start
         self.rotation = rotatebuttons[0].rotation 
-
+        if (self.rotation == 0):
+            self.x = [self.start[0],self.start[0]+1,self.start[0]+2,self.start[0]+3,self.start[0]+4]
+            self.y = [self.start[1],self.start[1],self.start[1],self.start[1],self.start[1]]
+        elif (self.rotation == 90):
+             self.x = [self.start[0],self.start[0],self.start[0],self.start[0],self.start[0]]
+             self.y = [self.start[1],self.start[1]+1,self.start[1]+2,self.start[1]+3,self.start[1]+4]
+        elif (self.rotation == 180):
+             self.x = [self.start[0],self.start[0]-1,self.start[0]-2,self.start[0]-3,self.start[0]-4]
+             self.y = [self.start[1],self.start[1],self.start[1],self.start[1],self.start[1]]
+        elif (self.rotation == 270):
+             self.x = [self.start[0],self.start[0],self.start[0],self.start[0],self.start[0]]
+             self.y = [self.start[1],self.start[1]-1,self.start[1]-2,self.start[1]-3,self.start[1]-4]
 class fivex2():
     def __init__(self,start):
         self.start = start
-        self.rotation = rotatebuttons[3].rotation 
+        self.rotation = rotatebuttons[3].rotation
+        if (self.rotation == 0):
+            self.x = [self.start[0],self.start[0]+1,self.start[0]+2,self.start[0]+3,self.start[0]+4,self.start[0],self.start[0]+1,self.start[0]+2,self.start[0]+3,self.start[0]+4]
+            self.y = [self.start[1],self.start[1],self.start[1],self.start[1],self.start[1],self.start[1]+1,self.start[1]+1,self.start[1]+1,self.start[1]+1,self.start[1]+1]
+        elif (self.rotation == 90):
+             self.x = [self.start[0],self.start[0],self.start[0],self.start[0],self.start[0],self.start[0]+1,self.start[0]+1,self.start[0]+1,self.start[0]+1,self.start[0]+1]
+             self.y = [self.start[1],self.start[1]+1,self.start[1]+2,self.start[1]+3,self.start[1]+4,self.start[1],self.start[1]+1,self.start[1]+2,self.start[1]+3,self.start[1]+4]
+        elif (self.rotation == 180):
+             self.x = [self.start[0],self.start[0]-1,self.start[0]-2,self.start[0]-3,self.start[0]-4,self.start[0],self.start[0]-1,self.start[0]-2,self.start[0]-3,self.start[0]-4]
+             self.y = [self.start[1],self.start[1],self.start[1],self.start[1],self.start[1],self.start[1]+1,self.start[1]+1,self.start[1]+1,self.start[1]+1,self.start[1]+1]
+        elif (self.rotation == 270):
+             self.x = [self.start[0],self.start[0],self.start[0],self.start[0],self.start[0],self.start[0]+1,self.start[0]+1,self.start[0]+1,self.start[0]+1,self.start[0]+1]
+             self.y = [self.start[1],self.start[1]-1,self.start[1]-2,self.start[1]-3,self.start[1]-4,self.start[1],self.start[1]-1,self.start[1]-2,self.start[1]-3,self.start[1]-4]
 
-class sevenxthree():
+class twoxone():
     def __init__(self,start):
         self.start = start
         self.rotation = rotatebuttons[4].rotation 
+        if (self.rotation == 0):
+            self.x = [self.start[0],self.start[0]+1]
+            self.y = [self.start[1],self.start[1]]
+        elif (self.rotation == 90):
+             self.x = [self.start[0],self.start[0]]
+             self.y = [self.start[1],self.start[1]+1]
+        elif (self.rotation == 180):
+             self.x = [self.start[0],self.start[0]-1]
+             self.y = [self.start[1],self.start[1]]
+        elif (self.rotation == 270):
+             self.x = [self.start[0],self.start[0]]
+             self.y = [self.start[1],self.start[1]-1]
 
 
 stylesheet = """
-    Playerpage {
-        border-image: url("Resources/images/meeer.png"); 
+    shipplacementpage {
+        border-image: url("Resources/images/bg.jpg"); 
         background-repeat: no-repeat; 
         background-position: center;
     }
     QLabel {
-        color: black;
-        background-color: white;
+        color: white;
+        background-color: rgba(255, 255, 255, 0);
     }
     QPushButton {
-        background-color: rgba(255, 255, 255, 100);
-        color: black;
-        border: 1px solid black;
+        background-color: rgba(255, 255, 255, 0);
+        color: white;
+        border: 1px solid white;
     }
     QLineEdit {
-        border: 1px solid black;
-        color: black;
+        border: 1px solid white;
+        color: white;
         background-color: white;
     }
 """
@@ -369,7 +419,7 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
     app.setStyleSheet(stylesheet)
     window = shipplacementpage()
-    window.show()
+    window.showFullScreen()
 
 
     app.exec()

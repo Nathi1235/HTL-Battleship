@@ -290,7 +290,7 @@ def calc_winrate(player):
 
 stylesheet = """
     Playerpage {
-        border-image: url("HTL-Battleship/Resources/images/highrecbackground.png"); 
+        border-image: url("Resources/images/highrecbackground.png"); 
         background-repeat: no-repeat; 
         background-position: center;
     }
