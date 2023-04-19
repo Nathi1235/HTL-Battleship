@@ -26,6 +26,7 @@ class MainWindow(QMainWindow):
         self.mainlayout.setSpacing(0)
         self.my_buttons = []
         self.opp_buttons = []
+        self.coord_list = []
 
         self.letter_lsit = "ABCDEFGHIJKLMNO"
         
@@ -85,23 +86,17 @@ class MainWindow(QMainWindow):
 
 
 
-
-
-
         #get coords of pressed button
         x_coord = self.my_buttons.index(chosen_button) % 15 + 1
         y_coord = self.my_buttons.index(chosen_button) // 15 + 1
-        print(f"{x_coord},{y_coord}")
-
-        #interact with button through coords z.B. 2|13
-        test_coord_x = 2
-        test_coord_y = 13
-        self.my_buttons[15*(test_coord_y-1)+test_coord_x-1].setStyleSheet("background-color: red")
-
-
-
-
-
+        
+        if((x_coord,y_coord) not in self.coord_list):
+            self.coord_list.append((x_coord,y_coord))
+            print(f"{x_coord},{y_coord}")
+            self.my_buttons[15*(y_coord-1)+x_coord-1].setStyleSheet("background-color: red")
+            self.disable_buttons(False) #False = disable | True = enable
+    
+                
     
     def opp_button_clicked(self):
         chosen_button = self.sender()
@@ -109,8 +104,9 @@ class MainWindow(QMainWindow):
 
 
 
-
-
+    def disable_buttons(self, disable):
+        for i in self.my_buttons:
+            i.setEnabled(disable)
 
 
 
