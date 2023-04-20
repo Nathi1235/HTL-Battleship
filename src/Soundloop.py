@@ -1,9 +1,3 @@
-"""
-die .wav files sind zu groß d.h. sie werden in der schule ausgetauscht
-"""
-
-
-
 import threading
 import winsound
 
