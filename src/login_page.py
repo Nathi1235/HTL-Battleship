@@ -9,6 +9,7 @@ import hashlib
 path = "player_data.txt"
 
 
+
 class StartingPage(QMainWindow):
     def __init__(self): #the __init__ method of the super() class must always be called
         super().__init__()
@@ -130,16 +131,10 @@ class LoginWindow(QMainWindow):
                     self.correct = False
 
             if(self.correct == True): #if every input is correct
-                if(User_Login.user_login(path, self.input_field_list[0].text(), hashlib.sha256(self.input_field_list[1].text().encode()).hexdigest()) == 0):
-                    print("player not found")
-                    global player_data
-                    player_data = (self.input_field_list[0].text(),hashlib.sha256(self.input_field_list[1].text().encode()).hexdigest())
-                    app.quit()
-
-                else:
-                    print(User_Login.user_login(path, self.input_field_list[0].text(), hashlib.sha256(self.input_field_list[1].text().encode()).hexdigest()))
-                    
-
+                #send username, password to server
+                global player_data
+                player_data = (self.input_field_list[0].text(),hashlib.sha256(self.input_field_list[1].text().encode()).hexdigest(),"L")
+                app.quit()
             
 
 
@@ -224,14 +219,10 @@ class RegisterWindow(QMainWindow):
                 self.correct = False
 
             if(self.correct == True): #if every input is correct
-                check = User_Login.create_user(path, self.input_field_list[0].text(), hashlib.sha256(self.input_field_list[-1].text().encode()).hexdigest())
-                if check == 0:
-                    print("Error")
-                elif check == 2:
-                    print("User already exists")
-                else:
-                    print("All worked")
-                    #todo proceed to matchmaking/player selection window
+                global player_data
+                player_data = (self.input_field_list[0].text(),hashlib.sha256(self.input_field_list[1].text().encode()).hexdigest(),"R")
+                app.quit()
+                
                     
 
 
@@ -252,4 +243,4 @@ def login_register_window():
     window.setCurrentWidget(page1) #set starting window
     window.show() #show window
     app.exec() #start the event loop
-    return player_data
+    return player_data[0], player_data[1], player_data[2]

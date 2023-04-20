@@ -1,9 +1,14 @@
 from login_page import *
+from Playerpage import *
 
-player_data = login_register_window()
-username, password = player_data[0], player_data[1]
+#LOGIN/REGISTER
+username, password, login_or_register = login_register_window() #"L" for Login/"R" for Register
 #send to server: username, password
 #get from server: true or false
-print(f"{username},{password}")
+#sendToServer(username,password,login_or_register)
+print(f"{username},{password},{login_or_register}")
+
+#ENEMY SELECTION
+player_page()
 
 
