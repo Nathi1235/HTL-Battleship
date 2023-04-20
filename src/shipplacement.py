@@ -191,6 +191,7 @@ class placebutton(QWidget):
                     msg = QMessageBox(self)
                     msg.setWindowTitle("Invalid Input")
                     msg.setText("Please enter coordinates!")
+                    msg.setStyleSheet("color:black")
                     msg.exec()
                 else:
                     cords = cords.split()
@@ -240,14 +241,16 @@ class placebutton(QWidget):
                         msg = QMessageBox(self)
                         msg.setWindowTitle("Invalid Input")
                         msg.setText("Out of playing area!")
+                        msg.setStyleSheet("color:black")
                         msg.exec()
-                        checkfree = False
+                        checkfree = False   
                         break
                 for n in range(len(x_taken_by_ships)):
                     if (cord == (y_taken_by_ships[n]+str(x_taken_by_ships[n]))):
                         msg = QMessageBox(self)
                         msg.setWindowTitle("Invalid Input")
                         msg.setText("There is already a ship there!")
+                        msg.setStyleSheet("color:black")
                         msg.exec()
                         checkfree = False
                         break
