@@ -15,14 +15,17 @@ def soundtrack():
         winsound.PlaySound(filedings, winsound.SND_FILENAME)
         
         
-def start_soundtrack():
-    soundtrack_thread = threading.Thread(target=soundtrack)
-    soundtrack_thread.start()
-
 def oneshipleft():
     filename= 'Resources\Sound\alarm.wav'
     while True:
         winsound.PlaySound(filename, winsound.SND_FILENAME)
+
+        
+
+def start_soundtrack():
+    soundtrack_thread = threading.Thread(target=soundtrack)
+    soundtrack_thread.start()
+
 
 def start_oneshipleft():
     oneshipleft_thread = threading.Thread(target=oneshipleft)
