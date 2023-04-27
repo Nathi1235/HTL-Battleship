@@ -35,24 +35,28 @@ else:
 login = server.receive()
 
 if login != None:           #TODO: kp was der server da zurück schickt
+    login = True
 
+while(login):
 
-#!!!MATCHMAKING!!!
-    
+    #!!!MATCHMAKING!!!
+        
     player_page()
     #from gui: what player is challenged
 
-#!!!GAME!!!
+    #!!!GAME!!!
     print("Starting Shipplacement...")
     shipplacement()
     #send to server: Shipplacement
+    #to gui: Shipplacement
+    print("Shipplacement finished!")
 
     #grabbing usefull data for showcase
     opponent = server.receive()
 
-    ##print(f"{username},{password},{login_or_register}")
+    #print(f"{username},{password},{login_or_register}")
 
-    while(login):
+    while(True):
         myturn = server.receive() #wait for server
         if myturn == True:
             #from gui: coord input
@@ -62,3 +66,11 @@ if login != None:           #TODO: kp was der server da zurück schickt
         if myturn == False:
             enemyhit = server.receive()
             #to gui: show where hit and what
+            
+        if myturn == "Win":
+            #from gui: Winscreen
+            break
+
+        if myturn == "Lose":
+            #from gui: Losescreen
+            break
