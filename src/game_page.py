@@ -107,13 +107,13 @@ class MainWindow(QMainWindow):
         x_coord = self.opp_buttons.index(chosen_button) % 15 + 1
         y_coord = self.opp_buttons.index(chosen_button) // 15 + 1
         chosen_button = self.sender()
-        print(f"{x_coord},{y_coord}")
+        #print(f"{x_coord},{y_coord}")
         return(x_coord, y_coord)  #return coords of clicked button
 
 
 
-    def opp_field(self, list):
-        for i in list:
+    def ships(self, shiplist):
+        for i in shiplist:
             self.opp_buttons[15*(i[0]-1)+i[1]-1].setStyleSheet("background-color: red")
 
 

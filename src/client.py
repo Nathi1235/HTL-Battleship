@@ -49,7 +49,7 @@ while(login):
     print("Starting Shipplacement...")
     shipplacement()
     #send to server: Shipplacement
-    #to gui: Shipplacement
+    game_page.ships() #list with ship coords for coloring
     print("Shipplacement finished!")
 
     #grabbing usefull data for showcase
@@ -60,14 +60,14 @@ while(login):
     while(True):
         myturn = server.receive() #wait for server
         if myturn == True:
-            hit = checkifhit(game_page.opp_button_clicked(),2)
-            game_page.setcolor(hit)
-            game_page.disable_buttons(hit)
+            hit = checkifhit(game_page.opp_button_clicked())
+            game_page.setcolor(hit[0],hit[1],0)
+            game_page.disable_buttons(hit[0],hit[1])
 
         if myturn == False:
             enemyhit = server.receive()
-            #to gui: show where hit and what
-            
+            game_page.setcolor(enemyhit[0],enemyhit[1],1,enemyhit[2])
+
         if myturn == "Win":
             #from gui: Winscreen
             break
