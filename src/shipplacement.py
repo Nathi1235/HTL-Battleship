@@ -11,8 +11,8 @@ placebuttons = []
 rotatebuttons = []
 shippics = []
 cordentries = []
-x_taken_by_ships = ['#']
-y_taken_by_ships = ['#']
+x_taken_by_ships = []
+y_taken_by_ships = []
 
 class shipplacementpage(QMainWindow):
     def __init__(self):
