@@ -125,7 +125,7 @@ class MainWindow(QMainWindow):
             self.opp_buttons[15*(i[0]-1)+i[1]-1].setStyleSheet("background-color: red")
 
 
-    def shoot(self, x, y, color, player):
+    def setcolor(self, x, y, color, player):
         if (player == 0):
             self.opp_buttons[15*(y-1)+x-1].setStyleSheet(f"background-color: {color}")
         else:

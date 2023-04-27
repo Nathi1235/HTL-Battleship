@@ -60,8 +60,9 @@ while(login):
     while(True):
         myturn = server.receive() #wait for server
         if myturn == True:
-            checkifhit(game_page.opp_button_clicked())
-            #to gui: show where hit and what
+            hit = checkifhit(game_page.opp_button_clicked(),2)
+            game_page.setcolor(hit)
+            game_page.disable_buttons(hit)
 
         if myturn == False:
             enemyhit = server.receive()
