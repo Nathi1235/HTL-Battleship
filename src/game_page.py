@@ -30,6 +30,7 @@ class MainWindow(QMainWindow):
         self.coord_list = []
 
         self.letter_lsit = "ABCDEFGHIJKLMNO"
+        self.test_list = [(1,1),(1,3),(3,3),(3,4),(6,6),(4,6)]
         
 
         for i in range(15):
@@ -79,6 +80,9 @@ class MainWindow(QMainWindow):
                 widget.setLayout(self.mainlayout)
                 self.setCentralWidget(widget)
 
+        self.opp_field(self.test_list)
+        self.shoot(10, 10, "blue")
+
 
 
     def my_button_clicked(self):
@@ -108,6 +112,21 @@ class MainWindow(QMainWindow):
     def disable_buttons(self, disable):
         for i in self.my_buttons:
             i.setEnabled(disable)
+
+
+
+    def opp_field(self, list):
+        for i in list:
+            print(f"{i[0]} , {i[1]}")
+            #print(len(self.my_buttons))
+
+            #self.opp_buttons[15*(i[0]-1)+i[1]-1].setStyleSheet("background-color: red")
+            self.opp_buttons[15*(i[0]-1)+i[1]-1].setStyleSheet("background-color: red")
+
+
+    def shoot(self, x, y, color):
+        self.opp_buttons[15*(y-1)+x-1].setStyleSheet(f"background-color: {color}")
+
 
 
 
