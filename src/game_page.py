@@ -109,12 +109,6 @@ class MainWindow(QMainWindow):
 
 
 
-    def disable_buttons(self, disable):
-        for i in self.my_buttons:
-            i.setEnabled(disable)
-
-
-
     def opp_field(self, list):
         for i in list:
             print(f"{i[0]} , {i[1]}")
@@ -130,7 +124,7 @@ class MainWindow(QMainWindow):
         else:
             self.my_buttons[15*(y-1)+x-1].setStyleSheet(f"background-color: {color}")
 
-            
+
 
     def disable_buttons(self, x, y, player):
         if (player == 0):
