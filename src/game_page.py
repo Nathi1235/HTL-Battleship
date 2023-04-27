@@ -3,6 +3,7 @@ import random
 from PyQt6 import QtGui
 from PyQt6.QtCore import *
 from PyQt6.QtWidgets import *
+import networking as net
 
 
 
