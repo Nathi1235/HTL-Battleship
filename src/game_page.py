@@ -99,29 +99,21 @@ class MainWindow(QMainWindow):
             self.coord_list.append((x_coord,y_coord))
             print(f"{x_coord},{y_coord}")
             self.my_buttons[15*(y_coord-1)+x_coord-1].setStyleSheet("background-color: red")
-            self.disable_buttons(False) #False = disable | True = enable
     
                 
     
     def opp_button_clicked(self):
         chosen_button = self.sender()
-        print(self.opp_buttons.index(chosen_button))
-        return(self.opp_buttons.index(chosen_button))
-
-
-
-    def disable_buttons(self, disable):
-        for i in self.my_buttons:
-            i.setEnabled(disable)
+        x_coord = self.opp_buttons.index(chosen_button) % 15 + 1
+        y_coord = self.opp_buttons.index(chosen_button) // 15 + 1
+        chosen_button = self.sender()
+        print(f"{x_coord},{y_coord}")
+        return(x_coord, y_coord)  #return coords of clicked button
 
 
 
     def opp_field(self, list):
         for i in list:
-            print(f"{i[0]} , {i[1]}")
-            #print(len(self.my_buttons))
-
-            #self.opp_buttons[15*(i[0]-1)+i[1]-1].setStyleSheet("background-color: red")
             self.opp_buttons[15*(i[0]-1)+i[1]-1].setStyleSheet("background-color: red")
 
 
@@ -131,7 +123,7 @@ class MainWindow(QMainWindow):
         else:
             self.my_buttons[15*(y-1)+x-1].setStyleSheet(f"background-color: {color}")
 
-            
+
 
     def disable_buttons(self, x, y, player):
         if (player == 0):
