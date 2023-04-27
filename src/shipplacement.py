@@ -9,6 +9,7 @@ shipnumbers = [2,3,3,1,1]
 fieldbuttons = []
 placebuttons = []
 rotatebuttons = []
+lefttoplace = []
 shippics = []
 cordentries = []
 x_taken_by_ships = []
@@ -94,6 +95,7 @@ class shipplacementpage(QMainWindow):
             left_to_place.setStyleSheet("border: 1px solid white;")
             left_to_place.setFixedSize(150,50)
             left_to_place.setAlignment(Qt.AlignmentFlag.AlignCenter)
+            lefttoplace.append(left_to_place)
             buttonbox.addWidget(left_to_place)
             buttonbox.addSpacerItem(QSpacerItem(100,70))
             placebox.addLayout(buttonbox)
@@ -134,6 +136,7 @@ class shipplacementpage(QMainWindow):
             left_to_place.setStyleSheet("border: 1px solid white;")
             left_to_place.setFixedSize(150,50)
             left_to_place.setAlignment(Qt.AlignmentFlag.AlignCenter)
+            lefttoplace.append(left_to_place)
             buttonbox.addWidget(left_to_place)
             buttonbox.addSpacerItem(QSpacerItem(100,160))
             placebox.addLayout(buttonbox)
@@ -188,6 +191,7 @@ class placebutton(QWidget):
                     msg = QMessageBox(self)
                     msg.setWindowTitle("Invalid Input")
                     msg.setText("Please enter coordinates!")
+                    msg.setStyleSheet("color:black")
                     msg.exec()
                 else:
                     cords = cords.split()
@@ -237,14 +241,16 @@ class placebutton(QWidget):
                         msg = QMessageBox(self)
                         msg.setWindowTitle("Invalid Input")
                         msg.setText("Out of playing area!")
+                        msg.setStyleSheet("color:black")
                         msg.exec()
-                        checkfree = False
+                        checkfree = False   
                         break
                 for n in range(len(x_taken_by_ships)):
                     if (cord == (y_taken_by_ships[n]+str(x_taken_by_ships[n]))):
                         msg = QMessageBox(self)
                         msg.setWindowTitle("Invalid Input")
                         msg.setText("There is already a ship there!")
+                        msg.setStyleSheet("color:black")
                         msg.exec()
                         checkfree = False
                         break
@@ -261,6 +267,12 @@ class placebutton(QWidget):
                             y_taken_by_ships.append(chr.y)
                             for i in cordentries:
                                 i.setText("")
+                shipnumbers[j]=shipnumbers[j] - 1
+                lefttoplace[j].setText(f"{shipnumbers[j]} left to place ")
+                if shipnumbers[j]==0:
+                    placebuttons[j].setDisabled(True)
+
+
 
 class rotatebutton(QWidget):
     def __init__(self,rotation = 0): 

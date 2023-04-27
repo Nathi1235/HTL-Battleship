@@ -308,12 +308,9 @@ stylesheet = """
         background-color: rgba(0, 0, 0, 50);
     }
 """
-
-if __name__ == "__main__":
+def player_page():
     app = QApplication(sys.argv)
     app.setStyleSheet(stylesheet)
     window = Playerpage()
     window.show()
-
-
     app.exec()
