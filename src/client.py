@@ -2,6 +2,7 @@ from login_page import login_register_window
 from Playerpage import player_page
 import networking
 import shipplacement
+import game_page
 def dataprep(type ,*data):
     prepdata = (type, (data))
     return prepdata
@@ -59,8 +60,7 @@ while(login):
     while(True):
         myturn = server.receive() #wait for server
         if myturn == True:
-            #from gui: coord input
-            checkifhit()
+            checkifhit(game_page.opp_button_clicked())
             #to gui: show where hit and what
 
         if myturn == False:

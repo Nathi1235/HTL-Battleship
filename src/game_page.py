@@ -106,6 +106,7 @@ class MainWindow(QMainWindow):
     def opp_button_clicked(self):
         chosen_button = self.sender()
         print(self.opp_buttons.index(chosen_button))
+        return(self.opp_buttons.index(chosen_button))
 
 
 
