@@ -81,7 +81,7 @@ class MainWindow(QMainWindow):
                 self.setCentralWidget(widget)
 
         self.opp_field(self.test_list)
-        self.shoot(10, 10, "blue")
+        self.shoot(10, 10, "blue", 0)
 
 
 
@@ -125,8 +125,19 @@ class MainWindow(QMainWindow):
             self.opp_buttons[15*(i[0]-1)+i[1]-1].setStyleSheet("background-color: red")
 
 
-    def shoot(self, x, y, color):
-        self.opp_buttons[15*(y-1)+x-1].setStyleSheet(f"background-color: {color}")
+    def shoot(self, x, y, color, player):
+        if (player == 0):
+            self.opp_buttons[15*(y-1)+x-1].setStyleSheet(f"background-color: {color}")
+        else:
+            self.my_buttons[15*(y-1)+x-1].setStyleSheet(f"background-color: {color}")
+
+            
+
+    def disable_buttons(self, x, y, player):
+        if (player == 0):
+            self.opp_buttons[15*(y-1)+x-1].setEnabled(False)
+        else:
+            self.my_buttons[15*(y-1)+x-1].setEnabled(False)
 
 
 
