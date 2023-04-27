@@ -1,5 +1,5 @@
-from login_page import *
-from Playerpage import *
+from login_page import login_register_window
+from Playerpage import player_page
 import networking
 import shipplacement
 def dataprep(type ,*data):
@@ -24,16 +24,20 @@ else:
     server.send(dataprep("n",username, password))
 #get from server: true or false
 login = server.receive()
-#get from server: opponent
-opponent = server.receive()
 
-print("Starting Shipplacement...")
-shipplacement()
-##send to server: Shipplacement
+if login != None:           #TODO: kp was der server da zurück schickt
+    #get from server: opponent
+    opponent = server.receive()
+    player_page()
 
-##print(f"{username},{password},{login_or_register}")
 
-while(login):
-    fturn = server.receive()
-    ##if fturn == True:
+    print("Starting Shipplacement...")
+    shipplacement()
+    ##send to server: Shipplacement
+
+    ##print(f"{username},{password},{login_or_register}")
+
+    while(login):
+        fturn = server.receive()
+        ##if fturn == True:
         

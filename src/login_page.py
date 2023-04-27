@@ -134,7 +134,7 @@ class LoginWindow(QMainWindow):
                 #send username, password to server
                 global player_data
                 player_data = (self.input_field_list[0].text(),hashlib.sha256(self.input_field_list[1].text().encode()).hexdigest(),"L")
-                app.quit()
+                window.close()
             
 
 
@@ -221,7 +221,7 @@ class RegisterWindow(QMainWindow):
             if(self.correct == True): #if every input is correct
                 global player_data
                 player_data = (self.input_field_list[0].text(),hashlib.sha256(self.input_field_list[1].text().encode()).hexdigest(),"R")
-                app.quit()
+                window.close()
                 
                     
 
