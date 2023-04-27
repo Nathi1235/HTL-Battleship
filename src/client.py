@@ -3,13 +3,13 @@ from Playerpage import *
 import networking
 import shipplacement
 def dataprep(type ,*data):
-    prepdata = (type, data)
+    prepdata = (type, (data))
     return prepdata
 
 
     
-IP = ""
-Port = ""
+IP = "localhost"
+Port = 65500
 
 server = networking.Client_Net()
 server.client_Connect(IP,Port)
@@ -23,9 +23,9 @@ if login_or_register == "L":
 else:
     server.send(dataprep("n",username, password))
 #get from server: true or false
-login = server.recieve()
+login = server.receive()
 #get from server: opponent
-opponent = server.recieve()
+opponent = server.receive()
 
 print("Starting Shipplacement...")
 shipplacement()
@@ -34,6 +34,6 @@ shipplacement()
 ##print(f"{username},{password},{login_or_register}")
 
 while(login):
-    fturn = server.recieve()
+    fturn = server.receive()
     ##if fturn == True:
         
