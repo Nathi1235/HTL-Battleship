@@ -2,7 +2,7 @@ from login_page import login_register_window
 from Playerpage import player_page
 import networking
 import shipplacement
-import game_page
+from game_page import game_page
 from PyQt6.QtCore import QThread
 import requests
 import time
@@ -51,6 +51,7 @@ if login_or_register == "L":
 
 else:
     lresponse = requests.get(url+f"?username={username}&password={password}")
+
 
 
 

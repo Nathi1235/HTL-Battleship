@@ -165,4 +165,4 @@ def game_page():
     window.showFullScreen()
     app.exec()  
 
-game_page() #open game_page for testing only
+#game_page() #open game_page for testing only
