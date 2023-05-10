@@ -120,7 +120,6 @@ async def addgamerequest(cname: str, oname: str):
     game += 1
     gamerequests.append(request)
     response = game - 1
-    show_stats()
     return {response}
     
 @app.post("/delgamerequest")  #works
@@ -130,8 +129,6 @@ async def delgamerequest(game: int):
             i.cname = "#"
             i.oname = "#"
             i.gameid = "#"
-
-    show_stats()
     return {1}
 
 @app.get("/getgamerequests")   #works
@@ -148,13 +145,19 @@ async def getgamerequests(oname: str):
 @app.post("/acceptgamerequest")   #works
 async def acceptgamerequests(game = int):
     for i in gamerequests:
-        print(i.gameid)
-        print(game)
         if (int(i.gameid) == int(game)):
             i.accepted = True
-            print(i.accepted)
             return {1}
     return {0}
+
+@app.get("/check if accepted")
+async def checkifaccepted(game = int):
+    for i in gamerequests:
+        if (int(i.gameid) == int(game)):
+            if(i.accepted):
+                return {1}
+    return {0}
+
 
 @app.post("/sendplacedships")        #works
 async def playerfield(username: str,field: str):
@@ -174,7 +177,6 @@ async def startgame(username: str,game = int):
     for i in Players:
         if (username == i.username):
             i.in_game = True
-    show_stats()
     for p in Players:
         if (p.gameid == int(game)):
             if (p.in_game):
