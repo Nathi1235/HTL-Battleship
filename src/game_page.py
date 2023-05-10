@@ -14,14 +14,19 @@ class MainWindow(QMainWindow):
 
         self.setFixedSize(1920,1080)
 
-        QHBoxLayout()
+        
         self.Layout_1 = QGridLayout()
         self.Layout_2 = QGridLayout()
+        self.Layout_3 = QGridLayout()
         self.mainlayout = QHBoxLayout()
+        self.sublayout = QVBoxLayout()
+        self.sublayout.addLayout(self.Layout_2)
+        self.sublayout.addLayout(self.Layout_3)
         self.mainlayout.addLayout(self.Layout_1)
-        self.mainlayout.addLayout(self.Layout_2)
+        self.mainlayout.addLayout(self.sublayout)
         self.Layout_2.setAlignment(Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignCenter)
         self.Layout_1.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignCenter)
+        self.Layout_3.setAlignment(Qt.AlignmentFlag.AlignCenter)
         #self.Layout.setContentsMargins(0,0,0,0)
         #self.button.addStretch(1)
         self.mainlayout.setSpacing(0)
@@ -80,8 +85,28 @@ class MainWindow(QMainWindow):
                 widget.setLayout(self.mainlayout)
                 self.setCentralWidget(widget)
 
+            ship_list = [2,3,3,1,1] #list just for testing
+
+
+            
+            self.widget_ = QLabel(f"ship 1x2 : {ship_list[0]} ship 1x3 : {ship_list[1]} ship 1x4 : {ship_list[2]} ship 1x5 : {ship_list[3]} ship 2x5 : {ship_list[4]}")
+            font = self.widget_.font()
+            font.setPointSize(30)
+            self.widget_.setFont(font)
+            self.widget_.setAlignment(Qt.AlignmentFlag.AlignCenter)
+            self.widget_.setFixedSize(250,270)
+            self.widget_.setWordWrap(True)
+            self.Layout_3.addWidget(self.widget_,1,1)
+            
+
+
+
+
+
         self.opp_field(self.test_list)
         self.shoot(10, 10, "blue", 0)
+
+
 
 
 
@@ -112,12 +137,12 @@ class MainWindow(QMainWindow):
 
 
 
-    def ships(self, shiplist):
+    def opp_field(self, shiplist):
         for i in shiplist:
             self.opp_buttons[15*(i[0]-1)+i[1]-1].setStyleSheet("background-color: red")
 
 
-    def setcolor(self, x, y, color, player):
+    def shoot(self, x, y, color, player):
         if (player == 0):
             self.opp_buttons[15*(y-1)+x-1].setStyleSheet(f"background-color: {color}")
         else:
@@ -137,5 +162,5 @@ class MainWindow(QMainWindow):
 
 app = QApplication(sys.argv)
 window = MainWindow()
-window.show()
+window.showFullScreen()
 app.exec()  

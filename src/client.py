@@ -3,6 +3,8 @@ from Playerpage import player_page
 import networking
 import shipplacement
 import game_page
+
+
 def dataprep(type ,*data):
     prepdata = (type, (data))
     return prepdata
