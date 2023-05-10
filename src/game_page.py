@@ -159,8 +159,10 @@ class MainWindow(QMainWindow):
 
 
 
+def game_page():
+    app = QApplication(sys.argv)
+    window = MainWindow()
+    window.showFullScreen()
+    app.exec()  
 
-app = QApplication(sys.argv)
-window = MainWindow()
-window.showFullScreen()
-app.exec()  
+game_page() #open game_page for testing only
