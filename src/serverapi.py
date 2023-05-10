@@ -137,7 +137,7 @@ async def getgamerequests(oname: str):
     for i in gamerequests:
         if (i.oname == oname):
             if(i.accepted == True):
-                return {i.game,i.cname,i.oname}
+                return {i.gameid,i.cname,i.oname}
             else:    
                 challengers += f"{i.cname},{i.gameid}~"
     return {challengers}
