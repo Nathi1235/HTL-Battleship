@@ -150,7 +150,7 @@ async def acceptgamerequests(game = int):
             return {1}
     return {0}
 
-@app.get("/check if accepted")
+@app.get("/checkifaccepted")
 async def checkifaccepted(game = int):
     for i in gamerequests:
         if (int(i.gameid) == int(game)):
