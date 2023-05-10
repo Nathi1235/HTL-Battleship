@@ -3,49 +3,86 @@ from Playerpage import player_page
 import networking
 import shipplacement
 import game_page
+from PyQt6.QtCore import QThread
+import requests
+import time
+from fastapi import FastAPI
+import threading
+
+global main_gameid
+shipp = False
+global ip
+
+ip = "http://127.0.0.1:8000"
+
+app = FastAPI()
 
 
-def dataprep(type ,*data):
-    prepdata = (type, (data))
-    return prepdata
-
-def checkifhit (x,y):
-    #server bekommt coords von Client
-    server.send(dataprep("s",x,y))
-    #rückmeldung über Feldstatus
-    fieldstate = server.receive()
-    return fieldstate
-
-
-
-
+def thread_function():
+    # Wartezeit von 15 Sekunden
+    for i in range(0,15):
+        time.sleep(1)
+        req = requests.post(ip+"/checkifaccepted"+f"?game={main_gameid}") 
+        eq = req.json()
+        if(req == 1):
+            shipp = True
+            return
     
-IP = "localhost"
-Port = 65500
+    # löschen der GameRequest
+    requests.post(ip+"/delgamerequest"+f"?game={main_gameid}")
 
-server = networking.Client_Net()
-server.client_Connect(IP,Port)
+
+
+
+     
+
+
+
+
+
+
+
 
 #LOGIN/REGISTER
 username, password, login_or_register = login_register_window() #"L" for Login/"R" for Register
 
-#sendToServer(username,password,login_or_register)
 if login_or_register == "L":
-    server.send(dataprep("l",username, password))
-else:
-    server.send(dataprep("n",username, password))
-#get from server: true or false
-login = server.receive()
+    lresponse = requests.get(url+f"?username={username}&password={password}")
 
-if login != None:           #TODO: kp was der server da zurück schickt
+else:
+    lresponse = requests.get(url+f"?username={username}&password={password}")
+
+
+
+if lresponse == 1:           
     login = True
 
 while(login):
-
-    #!!!MATCHMAKING!!!
-        
     player_page()
-    #from gui: what player is challenged
+
+
+    # TODO von GUI -> Wer wird challenged
+    if():
+        gameid = requests.post(url+f"?cname={username}&oname={name2}")
+        main_gameid = gameid.json()
+
+    # Erstelle und starte den Thread
+        thread = threading.Thread(target=thread_function)
+        thread.start()
+
+    # TODO von GUI -> Was wird in Chat geschrieben
+    message = None
+    if():
+        requests.post(url+f"?username={username}&message={message}")
+
+    if(shipp == True):
+        fight = True
+        break
+
+    
+
+
+while(fight):
 
     #!!!GAME!!!
     print("Starting Shipplacement...")
@@ -53,9 +90,7 @@ while(login):
     #send to server: Shipplacement
     game_page.ships() #list with ship coords for coloring
     print("Shipplacement finished!")
-
-    #grabbing usefull data for showcase
-    opponent = server.receive()
+  
 
     #print(f"{username},{password},{login_or_register}")
 
