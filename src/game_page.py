@@ -21,6 +21,8 @@ class GameBoard(QWidget):
                 button1.setProperty("row", row)
                 button1.setProperty("col", col)
 
+                self.setFixedSize(900,500)
+
                 button1.clicked.connect(self.handleButtonClick)
 
                 self.spielfeld1.addWidget(button1, row, col)
@@ -35,12 +37,16 @@ class GameBoard(QWidget):
         mainLayout = QGridLayout()
         mainLayout.addWidget(QLabel("OPPONENT"), 0, 0, alignment=Qt.AlignmentFlag.AlignHCenter)
         mainLayout.addWidget(QLabel("PLAYER"), 0, 1, alignment=Qt.AlignmentFlag.AlignHCenter)
+        self.label = QLabel("Ursprünglicher Text")
+        mainLayout.addWidget(self.label,0,0,alignment=Qt.AlignmentFlag.AlignVCenter)
+        self.setWindowTitle("BattleShip")
+
         mainLayout.addLayout(self.spielfeld1, 1, 0)
         mainLayout.addLayout(self.spielfeld2, 1, 1)
 
         self.setLayout(mainLayout)
 
-    def handleButtonClick(self,mainLayout):
+    def handleButtonClick(self):
         button = self.sender()
         if (turn == 1):
             if button:
@@ -53,6 +59,14 @@ class GameBoard(QWidget):
                 button.setStyleSheet("background-color: red;")
 
                 return(row, col)
+        
+    def changeturn(self, turn):
+        if(turn == 1):
+            self.label.setText("YOUR TURN")
+
+        if(turn == 0):
+            self.label.setText("OPPONENTS TURN")
+            
 
             
             
@@ -70,4 +84,5 @@ if __name__ == '__main__':
     gameBoard = GameBoard()
     gameBoard.show()
     gameBoard.färbeFeldImSpielfeld2(0, 0, "gray")
+    gameBoard.changeturn(turn)
     sys.exit(app.exec())
