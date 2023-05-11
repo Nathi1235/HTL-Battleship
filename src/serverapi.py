@@ -232,16 +232,20 @@ async def endgame(game: int):
     try:
         game = int(game)
         opponents = []
+
         for i in Players:
             if (i.gameid == game):
                 opponents.append(i)
+
         for g in gamerequests:
             if (g.gameid == game):
                 gamerequest = g
+
         for p in opponents:
             p.games += 1
             if (gamerequest.winner == p.username):
                 p.wins += 1
+                
         gamerequest.cname = "#"
         gamerequest = "#"
         gamerequest = "#"
