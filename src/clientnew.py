@@ -21,6 +21,7 @@ layouts = []
 Datalabels = []
 Challengebuttons = []
 gamereqlabels = []
+reqbuttons = []
 game = None
 gameaccepted = False
 
@@ -141,16 +142,13 @@ class getgamereqs(QThread):
             for i in gamereqlabels:
                 i.setText(f"Challenge from {reqs[j].oname}")
                 j += 1
-            j = 0  
-            for i in Buttons:
-                if (j > 14):
-                    if (j%2 == 0):
-                        i.gameid = reqs[int(j-(18+((j-18)/2)))].gameid
-                        print("gameid",i.gameid)
-                    elif (j%2 == 1):
-                        i.gameid = reqs[int(j-(17+((j-17)/2)))].gameid
-                        print("gameid",i.gameid)
-                j +=1
+            j = 0 
+            z = 0
+            for i in reqbuttons:
+                i.gameid = reqs[j].gameid
+                if (z%2 == 1):
+                    j +=1
+                z +=1
 
             # 2 Sekunden warten
             time.sleep(2)
@@ -395,19 +393,20 @@ class queue_button(QWidget):
 class Accept_Game_Button(QWidget):
     def __init__(self):
         super().__init__()
+        reqbuttons.append(self)
         self.button = QPushButton(text="Accept",parent = self)
         self.button.setStyleSheet("background-color: #18a330")
         self.button.setFixedSize(140, 40)
         self.button.setFont(QFont("Arial",15))
         self.button.clicked.connect(self.button_clicked)
-        self.button.gameid = ""
+        self.gameid = ""
         Buttons.append(self.button)
 
     def button_clicked(self):
         self.button.setStyleSheet("background-color: rgba(#18a330, 100);")
-        print("gameidbutton",self.button.gameid)
-        self.button.setText(f"test{self.button.gameid}")
-        requests.post(url+"acceptgamerequest"+f"?game={self.button.gameid}")
+        print("gameidbutton",self.gameid)
+        self.button.setText(f"test{self.gameid}")
+        requests.post(url+"acceptgamerequest"+f"?game={self.gameid}")
         global login, app
         login = False
         app.exit()
@@ -416,19 +415,20 @@ class Accept_Game_Button(QWidget):
 class Decline_Game_Button(QWidget):
     def __init__(self):
         super().__init__()
+        reqbuttons.append(self)
         self.button = QPushButton(text="Decline",parent = self)
         self.button.setStyleSheet("background-color: red")
         self.button.setFixedSize(140, 40)
         self.button.setFont(QFont("Arial",15))
         self.button.clicked.connect(self.button_clicked)
-        self.button.gameid = ""
+        self.gameid = ""
         Buttons.append(self.button)
     
     def button_clicked(self):
         self.button.setStyleSheet("background-color: rgba(red, 100);")
-        print("gameidbutton",self.button.gameid)
-        self.button.setText(f"test{self.button.gameid}")
-        requests.post(url+"delgamerequest"+f"?game={self.button.gameid}")
+        print("gameidbutton",self.gameid)
+        self.button.setText(f"test{self.gameid}")
+        requests.post(url+"delgamerequest"+f"?game={self.gameid}")
 
 class Scroll_window(QScrollArea):
     def __init__(self, *args, **kwargs):
