@@ -23,30 +23,6 @@ cordentries = []
 x_taken_by_ships = []
 y_taken_by_ships = []
 
-def convert_to_numbers(letters):
-    numbers = []
-    for letter in letters:
-        number = ord(letter.upper()) - ord('A')
-        numbers.append(number)
-    return numbers
-
-def convert_to_integers(string_list):
-    integer_list = []
-    for item in string_list:
-        if item.isdigit():
-            integer_list.append(int(item)-1)
-    return integer_list
-
-def find_coordinates(data):
-    coordinates = []
-    for index, value in enumerate(data):
-        if value != 0:
-            row = index // 15
-            column = index % 15
-            coordinates.append((row, column))
-    return coordinates
-
-
 class shipplacementpage(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -479,22 +455,3 @@ if __name__ == "__main__":
 
   
     app.exec()
-    for k in range(0,225):
-        shiplist.append(0)
-
-    cnt = 0
-    for j in ships:
-        tmpl1 = convert_to_numbers(j.x)
-        tmpl2 = convert_to_integers(j.y)
-        print(tmpl1)
-        print(tmpl2)
-        cnt += 1
-        for c in range(0,len(tmpl1)):
-            idx = tmpl1[c] + 15*tmpl2[c]
-            shiplist[idx]=cnt
-shipstr = ""
-for z in shiplist:
-    shipstr += str(z)+"~"
-print(shiplist)
-find_coordinates(shiplist)
-print(shipstr)

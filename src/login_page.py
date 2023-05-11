@@ -244,3 +244,6 @@ def login_register_window():
     window.show() #show window
     app.exec() #start the event loop
     return player_data[0], player_data[1], player_data[2]
+
+if __name__ == '__main__':
+    login_register_window()

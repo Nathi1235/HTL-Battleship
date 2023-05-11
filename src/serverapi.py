@@ -1,19 +1,18 @@
-import User_Login as User_Login
-from random import *
-from fastapi import FastAPI
-from datetime import datetime
-#import time
-#import threading
+import User_Login as User_Login #import user_login module
+from random import * #import random module
+from fastapi import FastAPI #import FastAPI module
+from datetime import datetime #import datetime module
+
 
 app = FastAPI()
-playerdata = "E:/FSST\Repos/Battleship/HTL-Battleship/Resources/savefiles/player_data.txt"
-chatlog = "E:/FSST/Repos/Battleship/HTL-Battleship/Resources/savefiles/chatlog.txt"
+playerdata = "C:/Users/loril/Desktop/4.Klasse_HTL/FSST/Battleship/HTL-Battleship/Resources/savefiles/player_data.txt"
+chatlog = "C:/Users/loril/Desktop/4.Klasse_HTL/FSST/Battleship/HTL-Battleship/Resources/savefiles/chatlog.txt"
 
-Players = []
-gamerequests = []
-game = 0
+Players = [] #create empty Players list
+gamerequests = [] #create empty gamerequests list
+game = 0 #set game variable to 0
 
-class player:                                                         #create player class 
+class player: #create player class
     def __init__(self,username,wins=0,games=0,in_game = False,field = [],gameid = 0,turn = False):
         self.username = username
         self.wins = wins
@@ -23,7 +22,7 @@ class player:                                                         #create pl
         self.gameid = gameid
         self.turn = turn
 
-class gamerequest:
+class gamerequest: #create gamerequest class
     def __init__(self,cname,oname,gameid,accepted = False,winner = ""):
         self.cname = cname
         self.oname = oname
@@ -31,7 +30,7 @@ class gamerequest:
         self.accepted = accepted
         self.winner = winner
 
-def checkwin(field):
+def checkwin(field): #create checkwin function
     for i in field:
         if (i == 1):
             return 0
@@ -40,7 +39,7 @@ def checkwin(field):
     return win
 
 '''
-def show_stats():
+def show_stats(): #is supposed to print open requests and players but keeps crashing
         for i in gamerequests:
             print(f"cname={i.cname},oname={i.oname},gameid={i.gameid},accepted={i.accepted}")
         for j in Players:
@@ -55,23 +54,13 @@ t = threading.Thread(target=lambda:show_stats())
 t.start()
 '''
 
-@app.get("/userlogin")      #works
-async def login(username: str,password: str):
-    userdata = User_Login.user_login(playerdata,username,password)
-    if (userdata != 0):
-        Players.append(player(userdata[0],int(userdata[1]),int(userdata[1])+int(userdata[2])))
-        userdata = 1
-    return {userdata}
-
-@app.get("/usernew")    #works
-async def login(username: str,password: str):
-    userdata = User_Login.create_user(playerdata,username,password)
-    if (userdata == 1):
-        userdata = User_Login.user_login(playerdata,username,password)
-        print(userdata)
-        Players.append(player(userdata[0],int(userdata[1]),int(userdata[1])+int(userdata[2])))
-        userdata = 1
-    return {userdata}
+@app.get("/userlogin") #define userlogin endpoint
+async def login(username: str,password: str): #define login function with username and password as inputs
+    userdata = User_Login.user_login(playerdata,username,password) #call user_login function with playerdata, username, and password as inputs and save the result to userdata
+    if (userdata != 0): #if userdata is not equal to 0
+        Players.append(player(userdata[0],int(userdata[1]),int(userdata[1])+int(userdata[2]))) #append a new player object to Players list with username, wins, and games attributes from userdata
+        userdata = 1 #set userdata to 1
+    return {userdata} #return userdata
 
 @app.get("/activeplayers",)    #works
 async def playerlist(selfname: str):
@@ -155,7 +144,11 @@ async def checkifaccepted(game = int):
     for i in gamerequests:
         if (int(i.gameid) == int(game)):
             if(i.accepted):
+                for i in gamerequests:
+                    print(f"cname={i.cname},oname={i.oname},gameid={i.gameid},accepted={i.accepted}")
                 return {1}
+    for i in gamerequests:
+        print(f"cname={i.cname},oname={i.oname},gameid={i.gameid},accepted={i.accepted}")
     return {0}
 
 
@@ -216,7 +209,7 @@ async def shottarget(cord: int,targetname: str):
         return {target}
     
 @app.get("/checkwin")
-async def checkwin(game: int, username: str):
+async def checkwin(game: int, username: str):#async def can be interrupted and resumed later
     game = int(game)
     opponents = []
     for i in Players:
@@ -239,16 +232,20 @@ async def endgame(game: int):
     try:
         game = int(game)
         opponents = []
+
         for i in Players:
             if (i.gameid == game):
                 opponents.append(i)
+
         for g in gamerequests:
             if (g.gameid == game):
                 gamerequest = g
+
         for p in opponents:
             p.games += 1
             if (gamerequest.winner == p.username):
                 p.wins += 1
+                
         gamerequest.cname = "#"
         gamerequest = "#"
         gamerequest = "#"
