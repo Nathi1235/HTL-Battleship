@@ -75,9 +75,9 @@ class GameBoard(QWidget):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
+    #testlist
+    test = []
+    #for i in range(0,224,2):
 
     gameBoard = GameBoard()
     gameBoard.show()
-    gameBoard.färbeFeldImSpielfeld2(0, 0, "gray")
-    gameBoard.changeturn(turn)
-    sys.exit(app.exec())
