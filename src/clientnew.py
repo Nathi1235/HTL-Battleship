@@ -292,12 +292,23 @@ class Challengebutton(QWidget):
         self.button.setStyleSheet("background-color: rgba(255, 255, 255, 100);color: red;")
         result = requests.post(url+"addgamerequest"+f"?cname={username}&oname={self.playername}")
         result = result.json()
-        game = int(result[0])
+        self.game = int(result[0])
         self.timer = QTimer()
         self.timer.timeout.connect(lambda: self.reset_buttons(game))
         self.timer.start(15000)
+        
 
     def reset_buttons(self,game):
+        global gameaccepted
+        print("GAME ID:"+str(self.game))
+        result = requests.get(url+"checkifaccepted"+f"?game={self.game}").json()[0]
+        print("REQUESTRESULT:"+repr(result))
+        if result == 1:
+            global login, app
+            login = False
+            app.exit()
+        elif result == 0:
+            gameaccepted = False
         j = 0
         for i in Buttons:
             i.setEnabled(True)
@@ -315,7 +326,6 @@ class Challengebutton(QWidget):
                 j += 1
             else:
                 i.setStyleSheet("background-color: #18a330")
-        global gameaccepted
         if (not gameaccepted):
             result = requests.post(url+"delgamerequest"+f"?game={game}")
             result = result.json()
@@ -398,13 +408,9 @@ class Accept_Game_Button(QWidget):
         print("gameidbutton",self.button.gameid)
         self.button.setText(f"test{self.button.gameid}")
         requests.post(url+"acceptgamerequest"+f"?game={self.button.gameid}")
-        global window
-        global inShipplacement
-        inShipplacement = True
-        window = shipplacementpage()
-        window.showFullScreen()
-        global login 
+        global login, app
         login = False
+        app.exit()
 
 
 class Decline_Game_Button(QWidget):
@@ -750,6 +756,10 @@ class placebutton(QWidget):
                 lefttoplace[j].setText(f"{shipnumbers[j]} left to place ")
                 if shipnumbers[j]==0:
                     placebuttons[j].setDisabled(True)
+                if sum(shipnumbers) == 0:
+                    global placing_ships
+                    placing_ships = False
+                    app.exit()
 
 
 
@@ -926,6 +936,13 @@ while(login):
     window = Playerpage()
     window.show()
     app.exec()
+placing_ships = True
+while(placing_ships):
+    inShipplacement = True
+    window = shipplacementpage()
+    window.showFullScreen()
+    app.exec()
+
 
     '''
     # TODO von GUI -> Wer wird challenged

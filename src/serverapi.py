@@ -6,8 +6,8 @@ from datetime import datetime
 #import threading
 
 app = FastAPI()
-playerdata = "D:/Schule/4AHEL/FSST/HTL-Battleship/GITHUB/HTL-Battleship/Resources/savefiles/player_data.txt"
-chatlog = "D:/Schule/4AHEL/FSST/HTL-Battleship/GITHUB/HTL-Battleship/Resources/savefiles/chatlog.txt"
+playerdata = "C:/Users/loril/Desktop/4.Klasse_HTL/FSST/Battleship/HTL-Battleship/Resources/savefiles/player_data.txt"
+chatlog = "C:/Users/loril/Desktop/4.Klasse_HTL/FSST/Battleship/HTL-Battleship/Resources/savefiles/chatlog.txt"
 
 Players = []
 gamerequests = []
@@ -155,7 +155,11 @@ async def checkifaccepted(game = int):
     for i in gamerequests:
         if (int(i.gameid) == int(game)):
             if(i.accepted):
+                for i in gamerequests:
+                    print(f"cname={i.cname},oname={i.oname},gameid={i.gameid},accepted={i.accepted}")
                 return {1}
+    for i in gamerequests:
+        print(f"cname={i.cname},oname={i.oname},gameid={i.gameid},accepted={i.accepted}")
     return {0}
 
 
