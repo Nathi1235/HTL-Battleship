@@ -13,6 +13,15 @@ from login_page import login_register_window
 
 url = "http://127.0.0.1:8000/"
 
+def find_coordinates(data):
+    coordinates = []
+    for index, value in enumerate(data):
+        if value != 0:
+            row = index // 15
+            column = index % 15
+            coordinates.append((row, column))
+    return coordinates
+
 Buttons = []
 Headers = []
 Players = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
@@ -796,7 +805,8 @@ class placebutton(QWidget):
                     print(shiplist)
                     print(shipstr)
                     requests.post(url+"sendplacedships"+f"?username={username}&field={shipstr}")
-                    global placing_ships
+                    global placing_ships, ship_placement_list
+                    ship_placement_list = shiplist
                     placing_ships = False
                     app.exit()
 
@@ -996,6 +1006,12 @@ class GameBoard(QWidget):
 
         self.setLayout(mainLayout)
 
+        for i in find_coordinates(ship_placement_list):
+            row=ship_placement_list[i[0]]
+            col=ship_placement_list[i[1]]
+            self.färbeFeldImSpielfeld2(col, row, "gray")
+
+
     def handleButtonClick(self):
         button = self.sender()
         global turn
@@ -1029,6 +1045,7 @@ class GameBoard(QWidget):
 inShipplacement = False
 turn = 0
 opponent = 0
+ship_placement_list = []
 username, password, login_or_register = login_register_window() #"L" for Login/"R" for Register
 
 if login_or_register == "L":
