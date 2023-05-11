@@ -39,7 +39,7 @@ def checkwin(field): #create checkwin function
     return win
 
 '''
-def show_stats():
+def show_stats(): #is supposed to print open requests and players but keeps crashing
         for i in gamerequests:
             print(f"cname={i.cname},oname={i.oname},gameid={i.gameid},accepted={i.accepted}")
         for j in Players:
@@ -209,7 +209,7 @@ async def shottarget(cord: int,targetname: str):
         return {target}
     
 @app.get("/checkwin")
-async def checkwin(game: int, username: str):
+async def checkwin(game: int, username: str):#async def can be interrupted and resumed later
     game = int(game)
     opponents = []
     for i in Players:
