@@ -8,6 +8,7 @@ A GUI to challenge a player to a game.
 A GUI to place your ships.
 A GUI to play the game(not connected yet).
 Server functions over FastAPI.
+
 ```
 
 ## Funktionen

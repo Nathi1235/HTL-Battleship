@@ -32,6 +32,7 @@ def user_login(pathtofile, name, password):
         savefile.close()
         for i in range(0,len(data)):
             data[i] = data[i].strip('\n')
+        print(data)
         index = data.index(name)
         if data[index] == name and data[index+1] == password:                   #if username and password are right, the values 
             values = [name, data[index+2], data[index+3]]                       #name, wins, loses are returned
@@ -104,6 +105,6 @@ def user_leaderboard_wins(pathtofile):
 
 #testing
 if __name__ == '__main__':
-    path = "test.txt"
-    print(delete_user(path,"nathi"))
+    path = "HTL-Battleship/Resources/savefiles/player_data.txt"
+    print(user_login(path,"Nathi",'pwd1'))
 
