@@ -2,7 +2,7 @@ import sys
 from PyQt6.QtWidgets import QApplication, QWidget, QGridLayout, QPushButton, QLabel
 from PyQt6.QtCore import Qt
 global turn
-turn = 0
+turn = 1 
 
 class GameBoard(QWidget):
     def __init__(self):
@@ -54,11 +54,12 @@ class GameBoard(QWidget):
                 col = button.property("col")
 
                 print("Koordinaten: (", row, ",", col, ")")
+                print(col + 15*row)
 
                 button.setDisabled(True)
                 button.setStyleSheet("background-color: red;")
 
-                return(row, col)
+                return(col + 15*row)
         
     def changeturn(self, turn):
         if(turn == 1):
@@ -66,12 +67,6 @@ class GameBoard(QWidget):
 
         if(turn == 0):
             self.label.setText("OPPONENTS TURN")
-            
-
-            
-            
-
-            #self.färbeFeldImSpielfeld2(row, col)
 
     def färbeFeldImSpielfeld2(self, row, col, color):
         button = self.spielfeld2.itemAtPosition(row, col).widget()
