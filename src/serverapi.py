@@ -6,8 +6,8 @@ from datetime import datetime
 #import threading
 
 app = FastAPI()
-playerdata = "E:/FSST\Repos/Battleship/HTL-Battleship/Resources/savefiles/player_data.txt"
-chatlog = "E:/FSST/Repos/Battleship/HTL-Battleship/Resources/savefiles/chatlog.txt"
+playerdata = "D:/Schule/4AHEL/FSST/HTL-Battleship/GITHUB/HTL-Battleship/Resources/savefiles/player_data.txt"
+chatlog = "D:/Schule/4AHEL/FSST/HTL-Battleship/GITHUB/HTL-Battleship/Resources/savefiles/chatlog.txt"
 
 Players = []
 gamerequests = []
