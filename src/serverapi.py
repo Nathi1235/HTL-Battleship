@@ -1,19 +1,17 @@
-import User_Login as User_Login
-from random import *
-from fastapi import FastAPI
-from datetime import datetime
-#import time
-#import threading
+import User_Login as User_Login #import user_login module
+from random import * #import random module
+from fastapi import FastAPI #import FastAPI module
+from datetime import datetime #import datetime module
 
-app = FastAPI()
-playerdata = "D:/Schule/4AHEL/FSST/HTL-Battleship/GITHUB/HTL-Battleship/Resources/savefiles/player_data.txt"
-chatlog = "D:/Schule/4AHEL/FSST/HTL-Battleship/GITHUB/HTL-Battleship/Resources/savefiles/chatlog.txt"
+app = FastAPI() #create a FastAPI app instance
+playerdata = "D:/Schule/4AHEL/FSST/HTL-Battleship/GITHUB/HTL-Battleship/Resources/savefiles/player_data.txt" #set the path of player_data.txt file
+chatlog = "D:/Schule/4AHEL/FSST/HTL-Battleship/GITHUB/HTL-Battleship/Resources/savefiles/chatlog.txt" #set the path of chatlog.txt file
 
-Players = []
-gamerequests = []
-game = 0
+Players = [] #create empty Players list
+gamerequests = [] #create empty gamerequests list
+game = 0 #set game variable to 0
 
-class player:                                                         #create player class 
+class player: #create player class
     def __init__(self,username,wins=0,games=0,in_game = False,field = [],gameid = 0,turn = False):
         self.username = username
         self.wins = wins
@@ -23,7 +21,7 @@ class player:                                                         #create pl
         self.gameid = gameid
         self.turn = turn
 
-class gamerequest:
+class gamerequest: #create gamerequest class
     def __init__(self,cname,oname,gameid,accepted = False,winner = ""):
         self.cname = cname
         self.oname = oname
@@ -31,7 +29,7 @@ class gamerequest:
         self.accepted = accepted
         self.winner = winner
 
-def checkwin(field):
+def checkwin(field): #create checkwin function
     for i in field:
         if (i == 1):
             return 0
@@ -55,23 +53,13 @@ t = threading.Thread(target=lambda:show_stats())
 t.start()
 '''
 
-@app.get("/userlogin")      #works
-async def login(username: str,password: str):
-    userdata = User_Login.user_login(playerdata,username,password)
-    if (userdata != 0):
-        Players.append(player(userdata[0],int(userdata[1]),int(userdata[1])+int(userdata[2])))
-        userdata = 1
-    return {userdata}
-
-@app.get("/usernew")    #works
-async def login(username: str,password: str):
-    userdata = User_Login.create_user(playerdata,username,password)
-    if (userdata == 1):
-        userdata = User_Login.user_login(playerdata,username,password)
-        print(userdata)
-        Players.append(player(userdata[0],int(userdata[1]),int(userdata[1])+int(userdata[2])))
-        userdata = 1
-    return {userdata}
+@app.get("/userlogin") #define userlogin endpoint
+async def login(username: str,password: str): #define login function with username and password as inputs
+    userdata = User_Login.user_login(playerdata,username,password) #call user_login function with playerdata, username, and password as inputs and save the result to userdata
+    if (userdata != 0): #if userdata is not equal to 0
+        Players.append(player(userdata[0],int(userdata[1]),int(userdata[1])+int(userdata[2]))) #append a new player object to Players list with username, wins, and games attributes from userdata
+        userdata = 1 #set userdata to 1
+    return {userdata} #return userdata
 
 @app.get("/activeplayers",)    #works
 async def playerlist(selfname: str):
