@@ -9,11 +9,11 @@ def shipplacement():
     window = shipplacementpage()
     window.showFullScreen()
 
-
     app.exec()
 
 headers = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O']
 shipnumbers = [2,3,3,1,1]
+ships = []
 fieldbuttons = []
 placebuttons = []
 rotatebuttons = []
@@ -22,6 +22,20 @@ shippics = []
 cordentries = []
 x_taken_by_ships = []
 y_taken_by_ships = []
+
+def convert_to_numbers(letters):
+    numbers = []
+    for letter in letters:
+        number = ord(letter.upper()) - ord('A')
+        numbers.append(number)
+    return numbers
+
+def convert_to_integers(string_list):
+    integer_list = []
+    for item in string_list:
+        if item.isdigit():
+            integer_list.append(int(item)-1)
+    return integer_list
 
 class shipplacementpage(QMainWindow):
     def __init__(self):
@@ -214,14 +228,19 @@ class placebutton(QWidget):
             checkfree = True
             if (j == 0):
                 ship = fivex1(startcords)
+                ships.append(ship)
             elif (j == 1): 
                 ship = fourx1(startcords)
+                ships.append(ship)
             elif (j == 2):
-                ship = threexone(startcords)     
+                ship = threexone(startcords)
+                ships.append(ship)     
             elif (j == 3):
                 ship = fivex2(startcords)
+                ships.append(ship)
             elif (j == 4):
                 ship = twoxone(startcords)
+                ships.append(ship)
             k = 0
             for i in ship.x:
                 if (i < 1 or i > 15):
@@ -341,6 +360,7 @@ class threexone():
              self.x = [self.start[0],self.start[0],self.start[0]]
              self.y = [self.start[1],self.start[1]-1,self.start[1]-2]
 
+
 class fourx1():
     def __init__(self,start,x = [],y = []):
         self.x = x
@@ -359,6 +379,8 @@ class fourx1():
         elif (self.rotation == 270):
              self.x = [self.start[0],self.start[0],self.start[0],self.start[0]]
              self.y = [self.start[1],self.start[1]-1,self.start[1]-2,self.start[1]-3]
+        print(self.x)
+        print(self.y)
 
 class fivex1():
     def __init__(self,start):
@@ -376,6 +398,7 @@ class fivex1():
         elif (self.rotation == 270):
              self.x = [self.start[0],self.start[0],self.start[0],self.start[0],self.start[0]]
              self.y = [self.start[1],self.start[1]-1,self.start[1]-2,self.start[1]-3,self.start[1]-4]
+
 class fivex2():
     def __init__(self,start):
         self.start = start
@@ -395,6 +418,8 @@ class fivex2():
 
 class twoxone():
     def __init__(self,start):
+        self.intx = self.x
+        self.inty = self.y
         self.start = start
         self.rotation = rotatebuttons[4].rotation 
         if (self.rotation == 0):
@@ -409,7 +434,6 @@ class twoxone():
         elif (self.rotation == 270):
              self.x = [self.start[0],self.start[0]]
              self.y = [self.start[1],self.start[1]-1]
-
 
 stylesheet = """
     shipplacementpage {
@@ -440,6 +464,26 @@ if __name__ == "__main__":
     app.setStyleSheet(stylesheet)
     window = shipplacementpage()
     window.showFullScreen()
+    tmpl3 = []
+    shiplist = []
 
-
+  
     app.exec()
+    for k in range(0,225):
+        shiplist.append(0)
+
+    cnt = 0
+    for j in ships:
+        tmpl1 = convert_to_numbers(j.x)
+        tmpl2 = convert_to_integers(j.y)
+        print(tmpl1)
+        print(tmpl2)
+        cnt += 1
+        for c in range(0,len(tmpl1)):
+            idx = tmpl1[c] + 15*tmpl2[c]
+            shiplist[idx]=cnt
+shipstr = ""
+for z in shiplist:
+    shipstr += str(z)+"~"
+print(shiplist)
+print(shipstr)
