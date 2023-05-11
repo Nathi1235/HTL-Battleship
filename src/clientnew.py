@@ -282,12 +282,15 @@ class Challengebutton(QWidget):
         self.button.setText(f"Challenge {self.playername}")
 
     def button_clicked(self):
-
+        global opponent
+        opponent = self.playername
         for i in Buttons:
             i.setEnabled(False)
             i.setStyleSheet("background-color: rgba(100, 100, 100, 50)")
         self.button.setText(f"Waiting for {self.playername}")
         self.button.setStyleSheet("background-color: rgba(255, 255, 255, 100);color: red;")
+        global turn
+        turn = 1
         result = requests.post(url+"addgamerequest"+f"?cname={username}&oname={self.playername}")
         result = result.json()
         self.game = int(result[0])
@@ -298,15 +301,16 @@ class Challengebutton(QWidget):
 
     def reset_buttons(self,game):
         global gameaccepted
-        print("GAME ID:"+str(self.game))
         result = requests.get(url+"checkifaccepted"+f"?game={self.game}").json()[0]
-        print("REQUESTRESULT:"+repr(result))
         if result == 1:
-            global login, app
+            global login, app, gameID
+            gameID = self.game
             login = False
             app.exit()
         elif result == 0:
             gameaccepted = False
+            global turn
+            turn = 0
         j = 0
         for i in Buttons:
             i.setEnabled(True)
@@ -407,7 +411,8 @@ class Accept_Game_Button(QWidget):
         print("gameidbutton",self.gameid)
         self.button.setText(f"test{self.gameid}")
         requests.post(url+"acceptgamerequest"+f"?game={self.gameid}")
-        global login, app
+        global login, app, gameID
+        gameID = self.gameid
         login = False
         app.exit()
 
@@ -488,6 +493,19 @@ stylesheet = """
 """
 
 #SHIPPLACEMENT GUI
+def convert_to_numbers(letters):
+    numbers = []
+    for letter in letters:
+        number = ord(letter.upper()) - ord('A')
+        numbers.append(number)
+    return numbers
+
+def convert_to_integers(string_list):
+    integer_list = []
+    for item in string_list:
+        if item.isdigit():
+            integer_list.append(int(item)-1)
+    return integer_list
 
 shipheaders = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O']
 shipnumbers = [2,3,3,1,1]
@@ -499,6 +517,7 @@ shippics = []
 cordentries = []
 x_taken_by_ships = []
 y_taken_by_ships = []
+ships = []
 
 class shipplacementpage(QMainWindow):
     def __init__(self):
@@ -699,6 +718,7 @@ class placebutton(QWidget):
                 ship = fivex2(startcords)
             elif (j == 4):
                 ship = twoxone(startcords)
+            ships.append(ship)
             k = 0
             for i in ship.x:
                 if (i < 1 or i > 15):
@@ -757,6 +777,25 @@ class placebutton(QWidget):
                 if shipnumbers[j]==0:
                     placebuttons[j].setDisabled(True)
                 if sum(shipnumbers) == 0:
+                    shiplist = []
+                    for k in range(0,225):
+                        shiplist.append("0")
+                    cnt = 0
+                    for j in ships:
+                        tmpl1 = convert_to_numbers(j.x)
+                        tmpl2 = convert_to_integers(j.y)
+                        print(tmpl1)
+                        print(tmpl2)
+                        cnt += 1
+                        for c in range(0,len(tmpl1)):
+                            idx = tmpl1[c] + 15*tmpl2[c]
+                            shiplist[idx]=cnt
+                    shipstr = ""
+                    for z in shiplist:
+                        shipstr += str(z)+"~"
+                    print(shiplist)
+                    print(shipstr)
+                    requests.post(url+"sendplacedships"+f"?username={username}&field={shipstr}")
                     global placing_ships
                     placing_ships = False
                     app.exit()
@@ -914,10 +953,82 @@ shipplacement_stylesheet = """
     }
 """
 
+#GAME
+class GameBoard(QWidget):
+    def __init__(self):
+        super().__init__()
 
+        self.spielfeld1 = QGridLayout()
+        self.spielfeld1.setSpacing(0)
+        self.spielfeld2 = QGridLayout()
+        self.spielfeld2.setSpacing(0)
+
+        for row in range(15):
+            for col in range(15):
+                button1 = QPushButton()
+                button1.setStyleSheet("background-color: blue;")
+                button1.setFixedSize(30, 30)
+                button1.setProperty("row", row)
+                button1.setProperty("col", col)
+
+                self.setFixedSize(900,500)
+
+                button1.clicked.connect(self.handleButtonClick)
+
+                self.spielfeld1.addWidget(button1, row, col)
+
+                button2 = QPushButton()
+                button2.setStyleSheet("background-color: blue;")
+                button2.setFixedSize(30, 30)
+                button2.setDisabled(True)
+
+                self.spielfeld2.addWidget(button2, row, col)
+
+        mainLayout = QGridLayout()
+        mainLayout.addWidget(QLabel("OPPONENT"), 0, 0, alignment=Qt.AlignmentFlag.AlignHCenter)
+        mainLayout.addWidget(QLabel("PLAYER"), 0, 1, alignment=Qt.AlignmentFlag.AlignHCenter)
+        self.label = QLabel("Ursprünglicher Text")
+        mainLayout.addWidget(self.label,0,0,alignment=Qt.AlignmentFlag.AlignVCenter)
+        self.setWindowTitle("BattleShip")
+
+        mainLayout.addLayout(self.spielfeld1, 1, 0)
+        mainLayout.addLayout(self.spielfeld2, 1, 1)
+
+        self.setLayout(mainLayout)
+
+    def handleButtonClick(self):
+        button = self.sender()
+        global turn
+        turn = requests.get(url+"askturn"+f"?username={username}").json()[0]
+        if (turn == 1):
+            if button:
+                row = button.property("row")
+                col = button.property("col")
+
+                print("Koordinaten: (", row, ",", col, ")")
+                print(col + 15*row)
+
+                button.setDisabled(True)
+                button.setStyleSheet("background-color: red;")
+                global opponent
+                response = requests.post(url+"sendshot"+f"?cord={col + 15*row}&targetname={opponent}&username={username}").json()[0]
+        
+    def changeturn(self, turn):
+        if(turn == 1):
+            self.label.setText("YOUR TURN")
+
+        if(turn == 0):
+            self.label.setText("OPPONENTS TURN")
+
+    def färbeFeldImSpielfeld2(self, row, col, color):
+        button = self.spielfeld2.itemAtPosition(row, col).widget()
+        if button:
+            button.setStyleSheet("background-color: {};".format(color))
 
 #LOGIN/REGISTER
 inShipplacement = False
+turn = 0
+opponent = 0
 username, password, login_or_register = login_register_window() #"L" for Login/"R" for Register
 
 if login_or_register == "L":
@@ -942,6 +1053,13 @@ while(placing_ships):
     window = shipplacementpage()
     window.showFullScreen()
     app.exec()
+in_game = True
+while(in_game):
+    turn = requests.post(url+"startgame"+f"?username={username}&game={gameID}").json()[0]
+    window = GameBoard()
+    window.show()
+    app.exec()
+    in_game = False
 
 
     '''

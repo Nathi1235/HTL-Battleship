@@ -161,6 +161,8 @@ async def playerfield(username: str,field: str):
     for i in Players:
         if (username == i.username):
             i.field = fieldlist
+            print(username)
+            print(i.field)
             return{1}
     return{0}
 
@@ -179,6 +181,7 @@ async def startgame(username: str,game = int):
         for j in Players:
             if (username == j.username):
                 j.turn = True
+                print("TURN:",username)
                 return {1}
     else:
         return {0}
@@ -191,25 +194,32 @@ async def askturn(username: str):
     return {"Error"}
 
 @app.post("/sendshot")
-async def shottarget(cord: int,targetname: str):
+async def shottarget(cord: int,targetname: str,username: str):
     cord = int(cord)
     for i in Players:
+        print(i.username)
+        print(i.field)
         if (i.username == targetname):
             field = i.field
+            i.turn = True
+        if (i.username == username):
+            i.turn = False
+    print(field)
     target = field[cord]
-    if (target != "#"):
-        target = "#"
+    if (target != "0"):
+        targetprev = target
+        target = "0"
         checkdestroyed = True
         for s in field:
             if (field[s] == target):
                 checkdestroyed = False
                 break
-        return {target,checkdestroyed}
+        return {targetprev,checkdestroyed}
     else:
         return {target}
     
 @app.get("/checkwin")
-async def checkwin(game: int, username: str):
+async def checkwin(game: int):
     game = int(game)
     opponents = []
     for i in Players:
@@ -218,7 +228,7 @@ async def checkwin(game: int, username: str):
     for p in opponents:
         win = True
         for s in p.field:
-            if (s != '#'):
+            if (s != '0'):
                 win = False
                 break
         if (win):
